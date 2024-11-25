@@ -1,0 +1,49 @@
+name: Rust Servers Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-run:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          target: x86_64-pc-windows-msvc
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+
+      #- name: Build Rust project
+       # run: cargo build --release
+
+      #  选择以下一种方案，并删除其他方案的注释
+
+      # 方案一：顺序执行
+      - name: Build sakura-game-server
+        run: cargo build --bin sakura-game-server
+      - name: Build sakura-sdk-server
+        run: cargo build --bin sakura-sdk-server
+      - name: Build sakura-dispatch-server
+        run: cargo build --bin sakura-dispatch-server
+      - name: Build sakura-gate-server
+        run: cargo build --bin sakura-gate-server
+      - uses: actions/upload-artifact@v3
+        with:
+          name: server-executables
+          path: target\debug\*.exe
+      #- name: Upload target directory
+       # uses: actions/upload-artifact@v3
+      #  with:
+      #    name: target-directory
+      #    path: target
+
+          
