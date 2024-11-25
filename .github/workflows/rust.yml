@@ -22,20 +22,20 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.1
 
-      #- name: Build Rust project
-       # run: cargo build --release
+      - name: Build Rust project
+        run: cargo build --release
 
       #  选择以下一种方案，并删除其他方案的注释
 
       # 方案一：顺序执行
-      - name: Build sakura-game-server
-        run: cargo build --bin sakura-game-server
-      - name: Build sakura-sdk-server
-        run: cargo build --bin sakura-sdk-server
-      - name: Build sakura-dispatch-server
-        run: cargo build --bin sakura-dispatch-server
-      - name: Build sakura-gate-server
-        run: cargo build --bin sakura-gate-server
+      #- name: Build sakura-game-server
+       # run: cargo build --bin sakura-game-server
+      #- name: Build sakura-sdk-server
+      #  run: cargo build --bin sakura-sdk-server
+     # - name: Build sakura-dispatch-server
+       # run: cargo build --bin sakura-dispatch-server
+     # - name: Build sakura-gate-server
+     #   run: cargo build --bin sakura-gate-server
       - uses: actions/upload-artifact@v3
         with:
           name: server-executables
