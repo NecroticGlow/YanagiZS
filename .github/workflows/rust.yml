@@ -39,7 +39,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: server-executables
-          path: target\debug\*.exe
+          path: target\release\*.exe
       #- name: Upload target directory
        # uses: actions/upload-artifact@v3
       #  with:
