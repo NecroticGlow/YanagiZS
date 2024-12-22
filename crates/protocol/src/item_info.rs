@@ -22,6 +22,7 @@ polymorphic!(
         dress_index: u8,
     } = 33,
     AvatarInfo {
+        ngfmenjlddl: u32,
         star: u8,
         exp: u32,
         level: u8,

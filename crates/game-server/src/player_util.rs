@@ -322,6 +322,7 @@ pub fn create_starting_player_info(
             player_info.items_mut().insert(
                 uid,
                 ItemInfo::AvatarInfo {
+                    ngfmenjlddl: 6,
                     uid,
                     id: tmpl.id(),
                     count: 1,
@@ -333,7 +334,7 @@ pub fn create_starting_player_info(
                     rank: 6,
                     unlocked_talent_num: 6,
                     talent_switch: (0..6).map(|i| i >= 3).collect(),
-                    skills: PropertyHashMap::Base((0..=6).map(|st| (st, 1)).collect()),
+                    skills: PropertyHashMap::Base((0..=6).map(|st| if st == 5 {(st, 7)} else {(st, 12)}).collect()),
                     is_custom_by_dungeon: false,
                     robot_id: 0,
                 },

@@ -62,6 +62,7 @@ pub struct AvatarSkillInfo {
 
 #[derive(OctData, Debug, Default)]
 pub struct AvatarInfo {
+    pub ngfmenjlddl: u32,
     pub id: u32,
     pub level: u32,
     pub exp: u32,

@@ -176,6 +176,7 @@ pub fn build_sync_avatar_info_list(player_info: &PlayerInfo) -> Vec<AvatarInfo> 
         .iter()
         .map(|(uid, item)| {
             if let ItemInfo::AvatarInfo {
+                ngfmenjlddl,
                 id,
                 first_get_time,
                 star,
@@ -189,6 +190,7 @@ pub fn build_sync_avatar_info_list(player_info: &PlayerInfo) -> Vec<AvatarInfo> 
             } = item
             {
                 Some(AvatarInfo {
+                    ngfmenjlddl: *ngfmenjlddl as u32,
                     id: *id as u32,
                     level: *level as u32,
                     exp: *exp as u32,
