@@ -1,36 +1,30 @@
 use super::*;
 
 pub async fn on_rpc_get_quest_data_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    arg: RpcGetQuestDataArg,
+    ctx: &mut NetworkContext<'_, '_, RpcGetQuestDataArg>,
 ) -> Result<RpcGetQuestDataRet, i32> {
     Ok(RpcGetQuestDataRet {
         retcode: 0,
-        quest_type: arg.quest_type,
+        quest_type: ctx.arg.quest_type,
         quest_data: QuestData::default(),
     })
 }
 
-pub async fn on_rpc_get_archive_info_arg(
-    _: &RpcPtcContext,
-    session: &mut PlayerSession,
-    _: RpcGetArchiveInfoArg,
-) -> Result<RpcGetArchiveInfoRet, i32> {
-    let archive_info = session.player_info.archive_info.as_ref().unwrap();
+pub async fn on_rpc_get_archive_data_arg(
+    ctx: &mut NetworkContext<'_, '_, RpcGetArchiveDataArg>,
+) -> Result<RpcGetArchiveDataRet, i32> {
+    let archive_info = ctx.session.player_info.archive_info();
 
-    Ok(RpcGetArchiveInfoRet {
+    Ok(RpcGetArchiveDataRet {
         retcode: 0,
-        archive_info: ArchiveInfo {
+        archive_data: ArchiveData {
             hollow_archive_id_list: archive_info
-                .hollow_archive_id
-                .as_ref()
-                .map(|set| set.iter().map(|id| *id as u32).collect())
-                .unwrap_or_default(),
+                .hollow_archive_id()
+                .iter()
+                .map(|id| *id as u32)
+                .collect(),
             videotaps_info: archive_info
-                .videotaps_info
-                .as_ref()
-                .unwrap()
+                .videotaps_info()
                 .iter()
                 .map(|(id, videotape)| VideotapeInfo {
                     archive_file_id: *id as u32,
@@ -41,40 +35,34 @@ pub async fn on_rpc_get_archive_info_arg(
     })
 }
 
-pub async fn on_rpc_get_yorozuya_info_arg(
-    _: &RpcPtcContext,
-    session: &mut PlayerSession,
-    _: RpcGetYorozuyaInfoArg,
-) -> Result<RpcGetYorozuyaInfoRet, i32> {
-    let yorozuya_info = session.player_info.yorozuya_info.as_ref().unwrap();
+pub async fn on_rpc_get_hollow_data_arg(
+    ctx: &mut NetworkContext<'_, '_, RpcGetHollowDataArg>,
+) -> Result<RpcGetHollowDataRet, i32> {
+    let yorozuya_info = ctx.session.player_info.yorozuya_info.as_ref().unwrap();
 
-    Ok(RpcGetYorozuyaInfoRet {
+    Ok(RpcGetHollowDataRet {
         retcode: 0,
-        yorozuya_info: YorozuyaInfo {
+        hollow_data: HollowData {
             unlock_hollow_id_list: yorozuya_info
-                .unlock_hollow_id
-                .as_ref()
-                .map(|list| list.iter().map(|id| *id as u32).collect())
-                .unwrap_or_default(),
+                .unlock_hollow_id()
+                .iter()
+                .map(|id| *id as u32)
+                .collect(),
         },
     })
 }
 
-pub async fn on_rpc_get_fairy_info_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcGetFairyInfoArg,
-) -> Result<RpcGetFairyInfoRet, i32> {
-    Ok(RpcGetFairyInfoRet {
+pub async fn on_rpc_get_fairy_data_arg(
+    _: &mut NetworkContext<'_, '_, RpcGetFairyDataArg>,
+) -> Result<RpcGetFairyDataRet, i32> {
+    Ok(RpcGetFairyDataRet {
         retcode: 0,
-        info: FairyInfo::default(),
+        data: FairyData::default(),
     })
 }
 
 pub async fn on_rpc_check_yorozuya_info_refresh_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcCheckYorozuyaInfoRefreshArg,
+    _: &mut NetworkContext<'_, '_, RpcCheckYorozuyaInfoRefreshArg>,
 ) -> Result<RpcCheckYorozuyaInfoRefreshRet, i32> {
     Ok(RpcCheckYorozuyaInfoRefreshRet::default())
 }

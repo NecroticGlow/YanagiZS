@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/*",  "crates/gate-server/kcp",  "crates/yanagi-proto/yanagi-proto-derive", "crates/qwer/qwer-derive", "crates/protocol/protocol-macros", "crates/qwer-rpc/qwer-server-example", "crates/qwer-rpc/qwer-client-example", "crates/yanagi-data/blockfile"]
+members = ["crates/*",  "crates/gate-server/kcp",  "crates/evelyn-proto/evelyn-proto-derive", "crates/qwer/qwer-derive", "crates/protocol/protocol-macros", "crates/qwer-rpc/qwer-server-example", "crates/qwer-rpc/qwer-client-example", "crates/evelyn-data/blockfile"]
 resolver = "2"
 
 [workspace.package]
@@ -38,7 +38,7 @@ rsa = { version = "0.9.6", features = ["sha2"] }
 xxhash-rust = { version = "0.8.12", features = ["const_xxh64"] }
 
 # Database
-surrealdb = "2.0.4"
+surrealdb = "2.1.4"
 
 # Error processing
 anyhow = "1.0.93"
@@ -64,11 +64,11 @@ qwer = { path = "crates/qwer" }
 qwer-rpc = { path = "crates/qwer-rpc" }
 qwer-derive = { path = "crates/qwer/qwer-derive" }
 protocol = { path = "crates/protocol" }
-yanagi-data = { path = "crates/yanagi-data" }
-yanagi-eventgraph = { path = "crates/yanagi-eventgraph" }
-yanagi-proto = { path = "crates/yanagi-proto" }
-yanagi-encryption = { path = "crates/yanagi-encryption" }
-yanagi-http-client = { path = "crates/yanagi-http-client" }
+evelyn-data = { path = "crates/evelyn-data" }
+evelyn-eventgraph = { path = "crates/evelyn-eventgraph" }
+evelyn-proto = { path = "crates/evelyn-proto" }
+evelyn-encryption = { path = "crates/evelyn-encryption" }
+evelyn-http-client = { path = "crates/evelyn-http-client" }
 
 [profile.release]
 strip = true      # Automatically strip symbols from the binary.

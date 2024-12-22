@@ -15,7 +15,7 @@ use qwer::{
     pdkhashmap, phashmap, phashset, PropertyDoubleKeyHashMap, PropertyHashMap, PropertyHashSet,
 };
 
-use crate::FILECFG;
+use crate::Globals;
 
 pub struct UidCounter {
     player_uid: u32,
@@ -40,7 +40,11 @@ impl UidCounter {
     }
 }
 
-pub fn create_starting_player_info(uid: u64, nick_name: &str) -> (UidCounter, PlayerInfo) {
+pub fn create_starting_player_info(
+    globals: &Globals,
+    uid: u64,
+    nick_name: &str,
+) -> (UidCounter, PlayerInfo) {
     let mut counter = UidCounter::new((uid & 0xFFFFFFFF) as u32, 0);
     let mut player_info = PlayerInfo {
         uid: Some(uid),
@@ -115,17 +119,9 @@ pub fn create_starting_player_info(uid: u64, nick_name: &str) -> (UidCounter, Pl
             procedure_id: Some(0),
         }),
         pos_in_main_city: Some(PlayerPosInMainCity {
-            position: Some(Vector3f {
-                x: 17.35,
-                y: 0.37,
-                z: 6.01,
-            }),
-            rotation: Some(Vector3f {
-                x: 0.0,
-                y: 216.0,
-                z: 0.0,
-            }),
-            initial_pos_id: Some(String::from("Workshop_PlayerPos_Default")),
+            position: Some(Vector3f::default()),
+            rotation: Some(Vector3f::default()),
+            initial_pos_id: Some(String::from("Street_PlayerPos_Default")),
         }),
         fairy_info: Some(FairyInfo {
             condition_progress: Some(pdkhashmap![]),
@@ -307,13 +303,15 @@ pub fn create_starting_player_info(uid: u64, nick_name: &str) -> (UidCounter, Pl
         hollow_info: Some(HollowInfo {
             banned_hollow_event: Some(phashset!()),
         }),
-        main_city_avatar_id: Some(1221),
+        main_city_avatar_id: Some(1321), // segs
+        selected_post_girl: Some(phashset!()),
     };
 
+    let first_get_time = time_util::unix_timestamp();
+
     // Give all avatars
-    FILECFG
-        .get()
-        .unwrap()
+    globals
+        .filecfg
         .avatar_base_template_tb
         .data()
         .unwrap_or_default()
@@ -321,14 +319,14 @@ pub fn create_starting_player_info(uid: u64, nick_name: &str) -> (UidCounter, Pl
         .filter(|tmpl| tmpl.camp() != 0)
         .for_each(|tmpl| {
             let uid = counter.next();
-            player_info.items.as_mut().unwrap().insert(
+            player_info.items_mut().insert(
                 uid,
                 ItemInfo::AvatarInfo {
                     uid,
                     id: tmpl.id(),
                     count: 1,
                     package: 0,
-                    first_get_time: time_util::unix_timestamp(),
+                    first_get_time,
                     star: 6,
                     exp: 0,
                     level: 60,
@@ -338,6 +336,66 @@ pub fn create_starting_player_info(uid: u64, nick_name: &str) -> (UidCounter, Pl
                     skills: PropertyHashMap::Base((0..=6).map(|st| (st, 1)).collect()),
                     is_custom_by_dungeon: false,
                     robot_id: 0,
+                },
+            );
+        });
+
+    // Give all w-engines
+    globals
+        .filecfg
+        .weapon_template_tb
+        .data()
+        .unwrap_or_default()
+        .iter()
+        .for_each(|tmpl| {
+            let uid = counter.next();
+            player_info.items_mut().insert(
+                uid,
+                ItemInfo::Weapon {
+                    uid,
+                    id: tmpl.item_id(),
+                    count: 1,
+                    package: 0,
+                    first_get_time,
+                    avatar_uid: 0,
+                    star: 1 + tmpl.star_limit() as u8,
+                    exp: 0,
+                    level: 60,
+                    lock: 0,
+                    refine_level: tmpl.refine_limit() as u8,
+                },
+            );
+        });
+
+    globals
+        .filecfg
+        .unlock_config_template_tb
+        .data()
+        .unwrap_or_default()
+        .iter()
+        .for_each(|tmpl| {
+            player_info
+                .unlock_info_mut()
+                .unlocked_list_mut()
+                .insert(tmpl.id());
+        });
+
+    globals
+        .filecfg
+        .post_girl_config_template_tb
+        .data()
+        .unwrap_or_default()
+        .iter()
+        .for_each(|tmpl| {
+            let uid = counter.next();
+            player_info.items_mut().insert(
+                uid,
+                ItemInfo::PostGirlItem {
+                    uid,
+                    id: tmpl.id(),
+                    count: 1,
+                    package: 0,
+                    first_get_time,
                 },
             );
         });

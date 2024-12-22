@@ -1,5 +1,5 @@
 [package]
-name = "yanagi-autopatch-server"
+name = "evelyn-autopatch-server"
 edition = "2021"
 version.workspace = true
 

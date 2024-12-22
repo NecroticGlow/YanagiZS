@@ -1,0 +1,110 @@
+table AvatarBaseTemplate {
+	id: int;
+	code_name: string;
+	name: string;
+	full_name: string;
+	audio_event_replace_param: string;
+	audio_bank: string;
+	hit_types: [int];
+	element_types: [int];
+	unk_1: int;
+	gender: int;
+	camp: int;
+	unk_2: [string];
+}
+
+struct Property {
+	property: int;
+	value: int;
+}
+
+struct RefineCost {
+	item_id: int;
+	number: int;
+}
+
+table WeaponTemplate {
+	item_id: int;
+	weapon_name: string;
+	unk_missing_field: int;
+	base_property: Property;
+	rand_property: Property;
+	star_limit: int;
+	exp_recycle: int;
+	weapon_script_config: string;
+	weapon_ui_model: string;
+	unk_1: int;
+	unk_missing_field_2: int;
+	unk_weapon_path: string;
+	unk_missing_field_3: int;
+	refine_initial: int;
+	refine_limit: int;
+	unk_missing_field_4: int;
+	unk_missing_field_5: int;
+	unk_string_with_values: string;
+	unk_missing_field_6: int;
+	unk_2: int; // 3
+	weapon_desc: string;
+	weapon_release_tag: string;
+	unk_empty_string: string;
+	avatar_id: int;
+	weapon_comment: string;
+	refine_costs: [RefineCost];
+	unk_3: int;
+}
+
+table UnlockConfigTemplate {
+	id: int;
+	unk_1: string;
+	unk_2: [int];
+	unk_3: int;
+	unk_4: int;
+	unk_5: int;
+	unk_6: string;
+	unk_7: int;
+	unk_8: string;
+	icon_res: string;
+	unk_9: int;
+	name: string;
+	unk_10: string;
+	unk_11: int;
+	unk_12: int;
+	unk_13: bool;
+	unk_14: int;
+	unk_15: string;
+	unk_16: int;
+	unk_17: string;
+	unk_18: int;
+	unk_19: int;
+	unk_20: string;
+	unk_21: int;
+	unk_22: string;
+}
+
+table PostGirlConfigTemplate {
+	id: int;
+	name: string;
+	tag: string;
+	unk_1: int;
+	unk_2: string;
+	unk_3: int;
+	role_icon_name: string;
+	unk_4: string;
+	unk_5: [int];
+}
+
+table AvatarBaseTemplateTb {
+	data: [AvatarBaseTemplate];
+}
+
+table WeaponTemplateTb {
+	data: [WeaponTemplate];
+}
+
+table UnlockConfigTemplateTb {
+	data: [UnlockConfigTemplate];
+}
+
+table PostGirlConfigTemplateTb {
+	data: [PostGirlConfigTemplate];
+}

@@ -1,12 +1,10 @@
 use super::*;
 
-pub async fn on_rpc_get_vhs_store_info_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcGetVhsStoreInfoArg,
-) -> Result<RpcGetVhsStoreInfoRet, i32> {
-    Ok(RpcGetVhsStoreInfoRet {
+pub async fn on_rpc_get_vhs_store_data_arg(
+    _: &mut NetworkContext<'_, '_, RpcGetVhsStoreDataArg>,
+) -> Result<RpcGetVhsStoreDataRet, i32> {
+    Ok(RpcGetVhsStoreDataRet {
         retcode: 0,
-        info: VhsStoreInfo::default(),
+        data: VhsStoreData::default(),
     })
 }

@@ -75,4 +75,5 @@ polymorphic!(
         refine_level: u8,
     } = 5,
     WeaponLevelUpMaterial { } = 13,
+    PostGirlItem { } = 100,
 );

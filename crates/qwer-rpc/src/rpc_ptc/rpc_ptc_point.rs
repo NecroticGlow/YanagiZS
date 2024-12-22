@@ -103,6 +103,7 @@ impl RpcPtcPoint {
 
     async fn handle_protocol_context(self: &Arc<Self>, context: ProtocolContext) {
         if context.body.len() < 6 {
+            debug!("received packet with too small body");
             return;
         }
 
@@ -110,6 +111,11 @@ impl RpcPtcPoint {
         let protocol_id = r.read_u16::<LE>().unwrap();
         let arg_size = r.read_u32::<BE>().unwrap() as usize;
         if arg_size + 6 > context.body.len() {
+            debug!(
+                "arg_size out of bounds! size: {}, body_len: {}",
+                arg_size + 6,
+                context.body.len()
+            );
             return;
         }
 
@@ -232,10 +238,7 @@ impl RpcPtcPoint {
 
         marshal_middleware_list(&mut ProtocolStream::new(&mut cursor), &middleware_list).unwrap();
 
-        let ret_buf = self
-            .protocol_point
-            .call_rpc(addr, buf.into_boxed_slice(), timeout)
-            .await?;
+        let ret_buf = self.protocol_point.call_rpc(addr, &buf, timeout).await?;
 
         Some(RpcRawRet(ret_buf))
     }

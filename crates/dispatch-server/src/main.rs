@@ -7,8 +7,8 @@ use std::{
 use anyhow::Result;
 use common::config::TomlConfig;
 use common::config::{AppConfig, EncryptionConfMap, ServerList};
+use evelyn_http_client::AutopatchClient;
 use serde::Deserialize;
-use yanagi_http_client::AutopatchClient;
 
 mod data;
 mod http_handlers;

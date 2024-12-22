@@ -18,10 +18,10 @@ use qwer_rpc::{
     middleware::MiddlewareModel, ProtocolServiceFrontend, RpcPtcContext, RpcPtcServiceFrontend,
 };
 
+use evelyn_data::{ArchiveFile, NapFileCfg};
 use protocol::*;
 use serde::Deserialize;
 use tracing::{error, info, warn};
-use yanagi_data::{ArchiveFile, NapFileCfg};
 
 mod database;
 mod level;
@@ -50,7 +50,11 @@ struct PlayerSession {
     pub level_event_graph_mgr: LevelEventGraphManager,
 }
 
-static FILECFG: OnceLock<NapFileCfg> = OnceLock::new();
+pub struct Globals {
+    pub filecfg: NapFileCfg,
+}
+
+static GLOBALS: OnceLock<Globals> = OnceLock::new();
 
 static PLAYER_MAP: LazyLock<DashMap<u64, PlayerSession>> = LazyLock::new(|| DashMap::new());
 static DB_CONTEXT: OnceLock<DbContext> = OnceLock::new();
@@ -68,14 +72,15 @@ async fn main() -> Result<()> {
     let main_city_script =
         remote_config::download_main_city_script_config(&remote_cfg.version_info);
 
-    let _ = DESIGN_DATA.set(yanagi_data::read_archive_file(std::io::Cursor::new(
+    let _ = DESIGN_DATA.set(evelyn_data::read_archive_file(std::io::Cursor::new(
         &design_data_blk,
     ))?);
 
-    level::load_script_config(&main_city_script);
+    GLOBALS.get_or_init(|| Globals {
+        filecfg: NapFileCfg::new(&DESIGN_DATA.get().unwrap()),
+    });
 
-    let nap_cfg = NapFileCfg::new(&DESIGN_DATA.get().unwrap());
-    FILECFG.get_or_init(|| nap_cfg);
+    level::load_script_config(&main_city_script);
 
     let db_context = DbContext::connect(&CONFIG.database).await?;
     DB_CONTEXT.get_or_init(|| db_context);
@@ -103,16 +108,18 @@ pub async fn on_rpc_player_login_arg(ctx: RpcPtcContext) {
         return;
     };
 
-    let Ok((uid_counter, player_info)) = DB_CONTEXT
+    let Ok((uid_counter, mut player_info)) = DB_CONTEXT
         .get()
         .unwrap()
-        .get_or_create_player_data(account_mw.player_uid)
+        .get_or_create_player_data(GLOBALS.get().unwrap(), account_mw.player_uid)
         .await
         .inspect_err(|err| error!("login failed: get_or_create_player_data failed: {err}"))
     else {
         ctx.send_ret(RpcPlayerLoginRet { retcode: 1 }).await;
         return;
     };
+
+    *player_info.login_times_mut() += 1;
 
     PLAYER_MAP.insert(
         account_mw.player_uid,

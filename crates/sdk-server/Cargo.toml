@@ -4,7 +4,7 @@ edition = "2021"
 version.workspace = true
 
 [[bin]]
-name = "yanagi-sdk-server"
+name = "evelyn-sdk-server"
 path = "src/main.rs"
 
 [dependencies]

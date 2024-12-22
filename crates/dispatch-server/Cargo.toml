@@ -1,5 +1,5 @@
 [package]
-name = "yanagi-dispatch-server"
+name = "evelyn-dispatch-server"
 edition = "2021"
 version.workspace = true
 
@@ -23,5 +23,5 @@ tracing.workspace = true
 
 # Internal
 common.workspace = true
-yanagi-encryption.workspace = true
-yanagi-http-client.workspace = true
+evelyn-encryption.workspace = true
+evelyn-http-client.workspace = true

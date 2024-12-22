@@ -1,5 +1,5 @@
 server_name = "nap_dev_01"
-bind_client_version = "CNBetaWin1.4.2"
+bind_client_version = "CNBetaWin1.5.0"
 design_data_url = "http://127.0.0.1:10000/design_data/NAP_Publish_AppStore_1.4"
 
 [database]

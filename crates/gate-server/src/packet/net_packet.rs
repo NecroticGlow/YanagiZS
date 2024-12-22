@@ -1,5 +1,5 @@
 use byteorder::{ByteOrder, BE};
-use yanagi_proto::{PacketHead, Protobuf, ProtobufDecodeError};
+use evelyn_proto::{PacketHead, Protobuf, ProtobufDecodeError};
 
 pub struct NetPacket<Proto> {
     pub head: PacketHead,
@@ -22,16 +22,30 @@ pub enum DecodeError {
     BodyDecode(ProtobufDecodeError),
 }
 
+type Result<T> = std::result::Result<T, DecodeError>;
+
 const OVERHEAD: usize = 16;
 const HEAD_MAGIC: [u8; 4] = 0x01234567_u32.to_be_bytes();
 const TAIL_MAGIC: [u8; 4] = 0x89ABCDEF_u32.to_be_bytes();
 
 impl<Proto> NetPacket<Proto>
 where
-    Proto: yanagi_proto::NapMessage,
+    Proto: evelyn_proto::NapMessage,
 {
-    pub fn decode(buf: &[u8]) -> Result<Self, DecodeError> {
-        let (_, head_len, body_len) = read_common_values(buf)?;
+    pub fn decode(buf: &[u8]) -> Result<Self> {
+        if &buf[0..4] != HEAD_MAGIC {
+            return Err(DecodeError::HeadMagicMismatch);
+        }
+
+        let head_len = buf.get_head_len()?;
+        let body_len = buf.get_body_len()?;
+
+        if OVERHEAD + head_len + body_len > buf.len() {
+            return Err(DecodeError::OutOfBounds(
+                OVERHEAD + head_len + body_len,
+                buf.len(),
+            ));
+        }
 
         if &buf[(12 + head_len + body_len)..(16 + head_len + body_len)] != TAIL_MAGIC {
             return Err(DecodeError::TailMagicMismatch);
@@ -70,23 +84,35 @@ where
     }
 }
 
-pub fn read_common_values(buf: &[u8]) -> Result<(u16, usize, usize), DecodeError> {
+pub trait PacketData {
+    fn get_cmd_id(&self) -> Result<u16>;
+    fn get_head_len(&self) -> Result<usize>;
+    fn get_body_len(&self) -> Result<usize>;
+}
+
+impl<T: AsRef<[u8]>> PacketData for T {
+    fn get_cmd_id(&self) -> Result<u16> {
+        sanity_check(self)?;
+        Ok(BE::read_u16(&self.as_ref()[4..6]))
+    }
+
+    fn get_head_len(&self) -> Result<usize> {
+        sanity_check(self)?;
+        Ok(BE::read_u16(&self.as_ref()[6..8]) as usize)
+    }
+
+    fn get_body_len(&self) -> Result<usize> {
+        sanity_check(self)?;
+        Ok(BE::read_u32(&self.as_ref()[8..12]) as usize)
+    }
+}
+
+#[inline]
+fn sanity_check<T: AsRef<[u8]>>(buf: T) -> Result<()> {
+    let buf = buf.as_ref();
     if buf.len() < OVERHEAD {
         return Err(DecodeError::InputLessThanOverhead(buf.len(), OVERHEAD));
     }
 
-    if &buf[0..4] != HEAD_MAGIC {
-        return Err(DecodeError::HeadMagicMismatch);
-    }
-
-    let cmd_id = BE::read_u16(&buf[4..6]);
-    let head_len = BE::read_u16(&buf[6..8]) as usize;
-    let body_len = BE::read_u32(&buf[8..12]) as usize;
-
-    let required_len = 4 + head_len + body_len;
-    if required_len > buf.len() {
-        Err(DecodeError::OutOfBounds(required_len, buf.len()))
-    } else {
-        Ok((cmd_id, head_len, body_len))
-    }
+    Ok(())
 }

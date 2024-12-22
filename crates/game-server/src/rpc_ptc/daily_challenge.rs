@@ -1,14 +1,10 @@
 use super::*;
 
-pub async fn on_rpc_get_daily_challenge_info_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcGetDailyChallengeInfoArg,
-) -> Result<RpcGetDailyChallengeInfoRet, i32> {
-    Ok(RpcGetDailyChallengeInfoRet {
+pub async fn on_rpc_get_daily_challenge_data_arg(
+    _: &mut NetworkContext<'_, '_, RpcGetDailyChallengeDataArg>,
+) -> Result<RpcGetDailyChallengeDataRet, i32> {
+    Ok(RpcGetDailyChallengeDataRet {
         retcode: 0,
-        info: DailyChallengeInfo {
-            ..Default::default()
-        },
+        data: DailyChallengeData::default(),
     })
 }

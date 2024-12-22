@@ -1,28 +1,22 @@
 use super::*;
 
-pub async fn on_rpc_get_abyss_info_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcGetAbyssInfoArg,
-) -> Result<RpcGetAbyssInfoRet, i32> {
-    Ok(RpcGetAbyssInfoRet {
+pub async fn on_rpc_abyss_get_data_arg(
+    _: &mut NetworkContext<'_, '_, RpcAbyssGetDataArg>,
+) -> Result<RpcAbyssGetDataRet, i32> {
+    Ok(RpcAbyssGetDataRet {
         retcode: 0,
         abyss_info: AbyssInfo::default(),
     })
 }
 
-pub async fn on_rpc_get_abyss_arpeggio_data_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcGetAbyssArpeggioDataArg,
-) -> Result<RpcGetAbyssArpeggioDataRet, i32> {
-    Ok(RpcGetAbyssArpeggioDataRet::default())
+pub async fn on_rpc_abyss_arpeggio_get_data_arg(
+    _: &mut NetworkContext<'_, '_, RpcAbyssArpeggioGetDataArg>,
+) -> Result<RpcAbyssArpeggioGetDataRet, i32> {
+    Ok(RpcAbyssArpeggioGetDataRet::default())
 }
 
 pub async fn on_rpc_get_abyss_reward_data_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcGetAbyssRewardDataArg,
+    _: &mut NetworkContext<'_, '_, RpcGetAbyssRewardDataArg>,
 ) -> Result<RpcGetAbyssRewardDataRet, i32> {
     Ok(RpcGetAbyssRewardDataRet {
         retcode: 0,

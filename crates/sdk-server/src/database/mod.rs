@@ -7,7 +7,7 @@ use surrealdb::{
 
 pub mod schema;
 
-const SDK_NAMESPACE: &str = "yanagi_sdk";
+const SDK_NAMESPACE: &str = "evelyn_sdk";
 const SDK_DB_NAME: &str = "user";
 
 const ACCOUNT_UID_COUNTER: &str = "account_uid";

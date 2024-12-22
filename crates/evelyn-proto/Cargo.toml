@@ -1,0 +1,17 @@
+[package]
+name = "evelyn-proto"
+edition = "2021"
+version.workspace = true
+
+[dependencies]
+qwer.workspace = true
+protocol.workspace = true
+prost.workspace = true
+prost-types.workspace = true
+evelyn-proto-derive = { path = "./evelyn-proto-derive" }
+
+[build-dependencies]
+prost-build.workspace = true
+syn = "2.0.79"
+quote = "1.0.37"
+prettyplease = "0.2.22"

@@ -3,11 +3,11 @@ use std::{
     sync::OnceLock,
 };
 
+use evelyn_eventgraph::MainCityConfig;
 use event_graph_runner::EventGraphGroup;
 use protocol::PtcSyncEventInfoArg;
 use qwer_rpc::RpcPtcContext;
 use tracing::instrument;
-use yanagi_eventgraph::MainCityConfig;
 
 use crate::PlayerSession;
 

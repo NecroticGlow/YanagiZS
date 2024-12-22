@@ -6,18 +6,18 @@ use std::{
     },
 };
 
+use evelyn_encryption::xor::MhyXorpad;
+use evelyn_proto::{NapMessage, NullMessage, PlayerGetTokenScRsp};
 use qwer_rpc::RpcPtcPoint;
 use tokio::sync::Mutex;
 use tracing::{debug, instrument};
-use yanagi_encryption::xor::MhyXorpad;
-use yanagi_proto::{NapMessage, NullMessage, PlayerGetTokenScRsp};
 
 use crate::{
     net::{
         kcp_conn_mgr::KcpEvent,
         packet_handler::{self, PacketHandlingError},
     },
-    packet::{read_common_values, DecodeError, NetPacket},
+    packet::{DecodeError, NetPacket, PacketData},
     AppState,
 };
 
@@ -67,14 +67,14 @@ impl Session {
     }
 
     pub fn send_rsp(&self, rpc_id: u32, mut msg: impl NapMessage) {
-        use yanagi_proto::CmdID;
+        use evelyn_proto::CmdID;
 
         let cmd_id = msg.get_cmd_id();
         debug!("send_rsp: {cmd_id}");
 
         msg.xor_fields();
 
-        let seq_id = (cmd_id != yanagi_proto::PlayerGetTokenScRsp::CMD_ID)
+        let seq_id = (cmd_id != evelyn_proto::PlayerGetTokenScRsp::CMD_ID)
             .then_some(
                 self.seq_id
                     .fetch_add(1, std::sync::atomic::Ordering::SeqCst),
@@ -82,7 +82,7 @@ impl Session {
             .unwrap_or(0);
 
         self.send(NetPacket {
-            head: yanagi_proto::PacketHead {
+            head: evelyn_proto::PacketHead {
                 packet_id: seq_id,
                 request_id: rpc_id,
                 ..Default::default()
@@ -97,7 +97,7 @@ impl Session {
 
         msg.xor_fields();
         self.send(NetPacket {
-            head: yanagi_proto::PacketHead {
+            head: evelyn_proto::PacketHead {
                 ..Default::default()
             },
             body: msg,
@@ -108,7 +108,7 @@ impl Session {
         let seq_id = self.seq_id.fetch_add(1, Ordering::SeqCst);
 
         self.send(NetPacket {
-            head: yanagi_proto::PacketHead {
+            head: evelyn_proto::PacketHead {
                 packet_id: seq_id,
                 request_id: rpc_id,
                 ..Default::default()
@@ -142,9 +142,12 @@ impl Session {
 
     #[inline]
     pub fn xor_packet_body(&self, packet: &mut [u8]) -> Result<(), DecodeError> {
-        use yanagi_proto::CmdID;
+        use evelyn_proto::CmdID;
 
-        let (cmd_id, head_len, body_len) = read_common_values(packet)?;
+        let cmd_id = packet.get_cmd_id()?;
+        let head_len = packet.get_head_len()?;
+        let body_len = packet.get_body_len()?;
+
         let body = &mut packet[12 + head_len..12 + head_len + body_len];
 
         match self.secret_key.get() {

@@ -81,8 +81,8 @@ impl QueryGatewayRsp {
             Self::Encrypted { .. } => self,
             Self::Plaintext(data) => {
                 let data = serde_json::to_string(&data).unwrap();
-                let content = yanagi_encryption::rsa::encrypt(config, data.as_bytes());
-                let sign = yanagi_encryption::rsa::sign(config, data.as_bytes());
+                let content = evelyn_encryption::rsa::encrypt(config, data.as_bytes());
+                let sign = evelyn_encryption::rsa::sign(config, data.as_bytes());
 
                 Self::Encrypted {
                     content: rbase64::encode(&content),
@@ -163,21 +163,21 @@ async fn query_gateway(
         cdn_conf_ext: Some(CdnConfExt {
             // TODO: move this stuff to VersionInfo in config.json
             design_data: CdnDesignData {
-                base_url: String::from("http://127.0.0.1:10000/design_data/beta_live/output_5016531_79764a0a26/client/"),
-                data_revision: String::from("5010994"),
-                md5_files: String::from(r#"[{"fileName":"data_version","fileSize":2056,"fileMD5":"847307868890712853"}]"#),
+                base_url: String::from("https://autopatchcn.juequling.com/design_data/beta_live/output_5814915_85b3cb3140/client/"),
+                data_revision: String::from("5809027"),
+                md5_files: String::from(r#"[{"fileName":"data_version","fileSize":4315,"fileMD5":"4404300511610983006"}]"#),
             },
             game_res: CdnGameRes {
-                audio_revision: String::from("5010994"),
-                base_url: String::from("http://127.0.0.1:10000/game_res/beta_live/output_5016531_79764a0a26/client/"),
+                audio_revision: String::from("5800559"),
+                base_url: String::from("https://autopatchcn.juequling.com/game_res/beta_live/output_5814915_85b3cb3140/client/"),
                 branch: String::from("beta_live"),
-                md5_files: String::from(r#"[{"fileName":"res_version","fileSize":1225259,"fileMD5":"13780047615044516895"},{"fileName":"audio_version","fileSize":14386,"fileMD5":"1213735845266261736"},{"fileName":"base_revision","fileSize":4,"fileMD5":"4524394692449115962"}]"#),
-                res_revision: String::from("5016531"),
+                md5_files: String::from(r#"[{"fileName":"res_version","fileSize":2261501,"fileMD5":"2477641798421196523"},{"fileName":"audio_version","fileSize":30442,"fileMD5":"5464351800451296121"},{"fileName":"base_revision","fileSize":18,"fileMD5":"7521958801292929508"}]"#),
+                res_revision: String::from("5814915"),
             },
             silence_data: CdnSilenceData {
-                base_url: String::from("http://127.0.0.1:10000/design_data/beta_live/output_5016531_79764a0a26/client_silence/"),
-                md5_files: String::from(r#"[{"fileName":"silence_version","fileSize":130,"fileMD5":"2077712550601860122"}]"#),
-                silence_revision: String::from("5010994"),
+                base_url: String::from("https://autopatchcn.juequling.com/design_data/beta_live/output_5814915_85b3cb3140/client_silence/"),
+                md5_files: String::from(r#"[{"fileName":"silence_version","fileSize":232,"fileMD5":"17401509085851157138"}]"#),
+                silence_revision: String::from("5800559"),
             },
             pre_download: None,
         }),

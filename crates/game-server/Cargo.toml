@@ -1,5 +1,5 @@
 [package]
-name = "yanagi-game-server"
+name = "evelyn-game-server"
 edition = "2021"
 version.workspace = true
 
@@ -33,6 +33,6 @@ dashmap.workspace = true
 
 # Internal
 common.workspace = true
-yanagi-data.workspace = true
-yanagi-eventgraph.workspace = true
-yanagi-http-client.workspace = true
+evelyn-data.workspace = true
+evelyn-eventgraph.workspace = true
+evelyn-http-client.workspace = true

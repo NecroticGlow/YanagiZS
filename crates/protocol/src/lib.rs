@@ -16,6 +16,10 @@ pub mod scene_info;
 pub use enums::*;
 
 #[derive(OctData, Debug, Default, ProtocolID)]
+#[id(1)]
+pub struct PtcKeepAliveArg {}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
 #[id(100)]
 pub struct RpcPlayerLoginArg {
     pub platform: u32,
@@ -58,7 +62,7 @@ pub struct AvatarSkillInfo {
 
 #[derive(OctData, Debug, Default)]
 pub struct AvatarInfo {
-    pub template_id: u32,
+    pub id: u32,
     pub level: u32,
     pub exp: u32,
     pub star: u32,
@@ -67,6 +71,7 @@ pub struct AvatarInfo {
     pub unlocked_talent_num: u32,
     pub talent_switch_list: Vec<bool>,
     pub skill_type_level: Vec<AvatarSkillInfo>,
+    pub cur_weapon_uid: u32,
 }
 
 #[derive(OctData, Debug, Default)]
@@ -81,7 +86,7 @@ pub struct RpcGetWeaponDataArg {}
 
 #[derive(OctData, Debug, Default)]
 pub struct WeaponInfo {
-    pub template_id: u32,
+    pub id: u32,
     pub level: u32,
     pub exp: u32,
     pub star: u32,
@@ -102,7 +107,7 @@ pub struct RpcGetEquipDataArg {}
 
 #[derive(OctData, Debug, Default)]
 pub struct EquipInfo {
-    pub template_id: u32,
+    pub id: u32,
     pub level: u32,
     pub exp: u32,
     pub star: u32,
@@ -122,7 +127,7 @@ pub struct RpcGetResourceDataArg {}
 
 #[derive(OctData, Debug, Default)]
 pub struct ResourceInfo {
-    pub template_id: u32,
+    pub id: u32,
     pub count: i32,
 }
 
@@ -157,7 +162,7 @@ pub struct RpcGetQuestDataRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(107)]
-pub struct RpcGetArchiveInfoArg {}
+pub struct RpcGetArchiveDataArg {}
 
 #[derive(OctData, Debug, Default)]
 pub struct VideotapeInfo {
@@ -166,41 +171,41 @@ pub struct VideotapeInfo {
 }
 
 #[derive(OctData, Debug, Default)]
-pub struct ArchiveInfo {
+pub struct ArchiveData {
     pub hollow_archive_id_list: Vec<u32>,
     pub videotaps_info: Vec<VideotapeInfo>,
 }
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetArchiveInfoRet {
+pub struct RpcGetArchiveDataRet {
     pub retcode: i32,
-    pub archive_info: ArchiveInfo,
+    pub archive_data: ArchiveData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(108)]
-pub struct RpcGetYorozuyaInfoArg {}
+pub struct RpcGetHollowDataArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct YorozuyaInfo {
+pub struct HollowData {
     pub unlock_hollow_id_list: Vec<u32>,
 }
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetYorozuyaInfoRet {
+pub struct RpcGetHollowDataRet {
     pub retcode: i32,
-    pub yorozuya_info: YorozuyaInfo,
+    pub hollow_data: HollowData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(109)]
-pub struct RpcGetAbyssInfoArg {}
+pub struct RpcAbyssGetDataArg {}
 
 #[derive(OctData, Debug, Default)]
 pub struct AbyssInfo {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetAbyssInfoRet {
+pub struct RpcAbyssGetDataRet {
     pub retcode: i32,
     pub abyss_info: AbyssInfo,
 }
@@ -216,10 +221,10 @@ pub struct RpcGetBuddyDataRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(111)]
-pub struct RpcGetAbyssArpeggioDataArg {}
+pub struct RpcAbyssArpeggioGetDataArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetAbyssArpeggioDataRet {
+pub struct RpcAbyssArpeggioGetDataRet {
     pub retcode: i32,
 }
 
@@ -236,10 +241,10 @@ pub struct RpcGetServerTimestampRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(113)]
-pub struct RpcGetVideoUsmKeyDataArg {}
+pub struct RpcVideoGetInfoArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetVideoUsmKeyDataRet {
+pub struct RpcVideoGetInfoRet {
     pub retcode: i32,
 }
 
@@ -329,7 +334,7 @@ pub struct RewardBuffData {}
 #[derive(OctData, Debug, Default)]
 pub struct RpcGetRewardBuffDataRet {
     pub retcode: i32,
-    pub info: RewardBuffData,
+    pub data: RewardBuffData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -343,15 +348,15 @@ pub struct RpcGetPlayerMailsRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(122)]
-pub struct RpcGetFairyInfoArg {}
+pub struct RpcGetFairyDataArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct FairyInfo {}
+pub struct FairyData {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetFairyInfoRet {
+pub struct RpcGetFairyDataRet {
     pub retcode: i32,
-    pub info: FairyInfo,
+    pub data: FairyData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -369,15 +374,36 @@ pub struct RpcGetTipsInfoRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(124)]
-pub struct RpcGetClientSystemsInfoArg {}
+pub struct RpcGetClientSystemsDataArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct ClientSystemsInfo {}
+pub struct UnlockData {
+    pub unlocked_list: Vec<i32>,
+}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetClientSystemsInfoRet {
+pub struct PostGirlItem {
+    pub id: u32,
+    pub unlock_time: i64,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct PostGirlData {
+    pub post_girl_item_list: Vec<PostGirlItem>,
+    pub selected_post_girl_id_list: Vec<u32>,
+    pub show_random_selected: bool,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct ClientSystemsData {
+    pub unlock_data: UnlockData,
+    pub post_girl_data: PostGirlData,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcGetClientSystemsDataRet {
     pub retcode: i32,
-    pub info: ClientSystemsInfo,
+    pub data: ClientSystemsData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -408,15 +434,15 @@ pub struct RpcGetCollectMapRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(127)]
-pub struct RpcGetWorkbenchInfoArg {}
+pub struct RpcWorkbenchGetDataArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct WorkbenchInfo {}
+pub struct WorkbenchData {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetWorkbenchInfoRet {
+pub struct RpcWorkbenchGetDataRet {
     pub retcode: i32,
-    pub workbench_info: WorkbenchInfo,
+    pub workbench_data: WorkbenchData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -434,15 +460,15 @@ pub struct RpcGetAbyssRewardDataRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(129)]
-pub struct RpcGetVhsStoreInfoArg {}
+pub struct RpcGetVhsStoreDataArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct VhsStoreInfo {}
+pub struct VhsStoreData {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetVhsStoreInfoRet {
+pub struct RpcGetVhsStoreDataRet {
     pub retcode: i32,
-    pub info: VhsStoreInfo,
+    pub data: VhsStoreData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -512,7 +538,7 @@ pub struct MainCityRevivalData {}
 #[derive(OctData, Debug, Default)]
 pub struct RpcGetMainCityRevivalDataRet {
     pub retcode: i32,
-    pub main_city_revival: MainCityRevivalData,
+    pub main_city_revival_data: MainCityRevivalData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -553,15 +579,15 @@ pub struct RpcGetBabelTowerDataRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(140)]
-pub struct RpcGetDailyChallengeInfoArg {}
+pub struct RpcGetDailyChallengeDataArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct DailyChallengeInfo {}
+pub struct DailyChallengeData {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetDailyChallengeInfoRet {
+pub struct RpcGetDailyChallengeDataRet {
     pub retcode: i32,
-    pub info: DailyChallengeInfo,
+    pub data: DailyChallengeData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -615,15 +641,15 @@ pub struct RpcGetExplorationDataRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(146)]
-pub struct RpcGetFashionStoreInfoArg {}
+pub struct RpcGetFashionStoreDataArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct FashionStoreInfo {}
+pub struct FashionStoreData {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetFashionStoreInfoRet {
+pub struct RpcGetFashionStoreDataRet {
     pub retcode: i32,
-    pub info: FashionStoreInfo,
+    pub data: FashionStoreData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -805,7 +831,11 @@ pub struct RpcSavePosInMainCityRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(156)]
-pub struct RpcPlayerOperationArg {}
+pub struct RpcPlayerOperationArg {
+    pub system: u32,
+    pub operator: u32,
+    pub param: i32,
+}
 
 #[derive(OctData, Debug, Default)]
 pub struct RpcPlayerOperationRet {
@@ -833,10 +863,10 @@ pub struct RpcPlayerTransactionRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(159)]
-pub struct RpcGetRechargeItemListArg {}
+pub struct RpcRechargeGetItemListArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetRechargeItemListRet {
+pub struct RpcRechargeGetItemListRet {
     pub retcode: i32,
 }
 
@@ -896,15 +926,15 @@ pub struct RpcGetMiniscapeEntrustDataRet {
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(163)]
-pub struct RpcGetJourneyInfoArg {}
+pub struct RpcGetJourneyDataArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct JourneyInfo {}
+pub struct JourneyData {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcGetJourneyInfoRet {
+pub struct RpcGetJourneyDataRet {
     pub retcode: i32,
-    pub info: JourneyInfo,
+    pub data: JourneyData,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -929,10 +959,38 @@ pub struct RpcModMainCityAvatarRet {
     pub retcode: i32,
 }
 
+#[derive(OctData, Debug, Default)]
+pub struct AvatarSync {
+    pub avatar_list: Vec<AvatarInfo>,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct ItemSync {
+    pub weapon_list: Vec<WeaponInfo>,
+    pub equip_list: Vec<EquipInfo>,
+    pub resource_list: Vec<ResourceInfo>,
+    pub auto_recovery_info: HashMap<u32, AutoRecoveryInfo>,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct PostGirlSyncData {
+    pub show_random_selected: bool,
+    pub selected_post_girl_id_list: Vec<u32>,
+    pub add_post_girl_item_list: Vec<PostGirlItem>,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct ClientSystemsSync {
+    pub post_girl_data: Option<PostGirlSyncData>,
+}
+
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(500)]
 pub struct PtcPlayerSyncArg {
     pub basic_info: Option<PlayerBasicInfo>,
+    pub avatar: Option<AvatarSync>,
+    pub item: Option<ItemSync>,
+    pub client_systems: Option<ClientSystemsSync>,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
@@ -1007,7 +1065,7 @@ pub struct RpcInteractWithClientEntityRet {
 pub struct RpcInteractWithUnitArg {
     pub r#type: i32,
     pub interaction: i32,
-    pub unit_tag: i32,
+    pub npc_tag_id: i32,
 }
 
 #[derive(OctData, Debug, Default)]
@@ -1101,19 +1159,125 @@ pub struct RpcEndBattleArg {
 }
 
 #[derive(OctData, Debug, Default)]
-pub struct BattleRewardInfo {}
+pub struct FightSettle {}
 
 #[derive(OctData, Debug, Default)]
 pub struct RpcEndBattleRet {
     pub retcode: i32,
-    pub battle_reward: BattleRewardInfo,
+    pub fight_settle: FightSettle,
 }
 
 #[derive(OctData, Debug, Default, ProtocolID)]
 #[id(177)]
-pub struct RpcLeaveCurDungeonArg {}
+pub struct RpcLeaveCurSceneArg {}
 
 #[derive(OctData, Debug, Default)]
-pub struct RpcLeaveCurDungeonRet {
+pub struct RpcLeaveCurSceneRet {
+    pub retcode: i32,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(178)]
+pub struct RpcGetPlayerNetworkDataArg {}
+
+#[derive(OctData, Debug, Default)]
+pub struct PlayerNetworkData {}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcGetPlayerNetworkDataRet {
+    pub retcode: i32,
+    pub player_network_data: Option<PlayerNetworkData>,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(179)]
+pub struct RpcWeaponDressArg {
+    pub avatar_id: u32,
+    pub weapon_uid: u32,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcWeaponDressRet {
+    pub retcode: i32,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(180)]
+pub struct RpcWeaponUnDressArg {
+    pub avatar_id: u32,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcWeaponUnDressRet {
+    pub retcode: i32,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(181)]
+pub struct RpcGetRidusGotBooDataArg {}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcGetRidusGotBooDataRet {
+    pub retcode: i32,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(182)]
+pub struct RpcGetFishingContestDataArg {}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcGetFishingContestDataRet {
+    pub retcode: i32,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(183)]
+pub struct RpcGetRedDotListArg {}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcGetRedDotListRet {
+    pub retcode: i32,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(184)]
+pub struct RpcGetAvatarRecommendEquipArg {
+    pub avatar_id: u32,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcGetAvatarRecommendEquipRet {
+    pub retcode: i32,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(185)]
+pub struct RpcPostEnterWorldArg {}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcPostEnterWorldRet {
+    pub retcode: i32,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(186)]
+pub struct RpcSetLanguageArg {
+    pub language: u32,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcSetLanguageRet {
+    pub retcode: i32,
+}
+
+#[derive(OctData, Debug, Default, ProtocolID)]
+#[id(187)]
+pub struct RpcSelectPostGirlArg {
+    pub show_random_selected: bool,
+    pub new_selected_post_girl_id_list: Vec<u32>,
+}
+
+#[derive(OctData, Debug, Default)]
+pub struct RpcSelectPostGirlRet {
     pub retcode: i32,
 }

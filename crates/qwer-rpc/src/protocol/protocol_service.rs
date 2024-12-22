@@ -114,7 +114,7 @@ impl ProtocolServiceFrontendImpl {
         from_channel: u16,
         to_channel: u16,
         to_addr: SocketAddr,
-        body: Box<[u8]>,
+        body: &[u8],
         timeout: Duration,
         is_ptc: bool,
         arg_uid: u64,
@@ -195,7 +195,7 @@ impl ProtocolServiceFrontendImpl {
         let mut n = 0;
         loop {
             while n < 8 {
-                match session.linker.recv_some(&mut buf[n..]).await? {
+                match session.linker.recv_some(&mut buf[n..8]).await? {
                     r if r > 0 => n += r,
                     _ => return Ok(()),
                 }
@@ -212,23 +212,28 @@ impl ProtocolServiceFrontendImpl {
             }
 
             while n < 8 + header_len + body_len {
-                match session.linker.recv_some(&mut buf[n..]).await? {
+                match session
+                    .linker
+                    .recv_some(&mut buf[n..8 + header_len + body_len])
+                    .await?
+                {
                     r if r > 0 => n += r,
                     _ => return Ok(()),
                 }
             }
 
-            let mut ps = ProtocolStream::new(Cursor::new(&mut buf[8..]));
+            let mut ps = ProtocolStream::new(Cursor::new(&mut buf[8..8 + header_len + body_len]));
             let header = ProtocolHeader::unmarshal_from(&mut ps)?;
 
             if let Some(channel_info) = session.entity.get_channel_info(to_channel) {
                 let body = ps.pop(body_len)?;
                 self.handle_received_rpc(&session, &channel_info, header, body)
                     .await;
+            } else {
+                println!("channel with id {to_channel} not found");
             }
 
-            buf.copy_within(8 + header_len + body_len..n, 0);
-            n -= 8 + header_len + body_len;
+            n = 0;
         }
     }
 
@@ -245,7 +250,9 @@ impl ProtocolServiceFrontendImpl {
 
         if header.is_rpc_ret {
             if let Some((_, rpc_arg_info)) = self.rpc_arg_mgr.release(header.rpc_arg_uid) {
-                let _ = rpc_arg_info.sender.send(body.into_boxed_slice());
+                rpc_arg_info.sender.send(body.into_boxed_slice()).unwrap();
+            } else {
+                println!("can't find rpc_arg_info with uid {}", header.rpc_arg_uid);
             }
         } else {
             if let Some(cb) = info.callback.as_ref() {

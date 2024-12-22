@@ -1,7 +1,7 @@
+use evelyn_eventgraph::{action_pb, ConfigEvent, ConfigEventAction, SectionEventGraphConfig};
 use protocol::player_info::{NpcInfo, NpcSceneData, Transform};
 use qwer::{phashset, PropertyHashSet};
 use tracing::debug;
-use yanagi_eventgraph::{action_pb, ConfigEvent, ConfigEventAction, SectionEventGraphConfig};
 
 use crate::{level::BoundInteractInfo, PlayerSession};
 
@@ -73,8 +73,8 @@ pub fn execute_action(
     match action {
         ActionCreateNpcCfg { id, tag_id } => {
             let uid = session.uid_counter.next();
-            let sdg = session.player_info.single_dungeon_group.as_mut().unwrap();
-            sdg.npcs.as_mut().unwrap().insert(
+            let sdg = session.player_info.single_dungeon_group_mut();
+            sdg.npcs_mut().insert(
                 scene_uid,
                 uid,
                 NpcInfo {
@@ -100,10 +100,8 @@ pub fn execute_action(
             section_listen_events,
             ..
         } => {
-            let sdg = session.player_info.single_dungeon_group.as_mut().unwrap();
-            sdg.npcs
-                .as_ref()
-                .unwrap()
+            let sdg = session.player_info.single_dungeon_group_mut();
+            sdg.npcs()
                 .iter()
                 .filter(|(s_uid, _, _)| **s_uid == scene_uid)
                 .for_each(|(_, &uid, npc)| {
@@ -133,12 +131,7 @@ pub fn execute_action(
                 });
         }
         ActionSetMainCityObjectState { object_state, .. } => {
-            let main_city_objects_state = session
-                .player_info
-                .main_city_objects_state
-                .as_mut()
-                .unwrap();
-
+            let main_city_objects_state = session.player_info.main_city_objects_state_mut();
             object_state
                 .iter()
                 .for_each(|(&obj, &state)| main_city_objects_state.insert(obj, state));
@@ -148,7 +141,7 @@ pub fn execute_action(
             args,
             store_template_id,
         } => {
-            use yanagi_eventgraph::Message;
+            use evelyn_eventgraph::Message;
             session
                 .level_event_graph_mgr
                 .push_protocol_action(protocol::ActionInfo {
@@ -168,7 +161,7 @@ pub fn execute_action(
             camera_x,
             camera_y,
         } => {
-            use yanagi_eventgraph::Message;
+            use evelyn_eventgraph::Message;
             session
                 .level_event_graph_mgr
                 .push_protocol_action(protocol::ActionInfo {

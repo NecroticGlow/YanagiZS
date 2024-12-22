@@ -8,9 +8,12 @@ use surrealdb::{
     Surreal,
 };
 
-use crate::player_util::{self, UidCounter};
+use crate::{
+    player_util::{self, UidCounter},
+    Globals,
+};
 
-const DB_NAMESPACE: &str = "yanagi";
+const DB_NAMESPACE: &str = "evelyn";
 const GAME_DB_NAME: &str = "nap";
 
 const PLAYER_DATA_TABLE: &str = "player_data";
@@ -44,6 +47,7 @@ impl DbContext {
 
     pub async fn get_or_create_player_data(
         &self,
+        globals: &Globals,
         player_uid: u64,
     ) -> Result<(UidCounter, PlayerInfo)> {
         let player_uid_str = player_uid.to_string();
@@ -57,7 +61,7 @@ impl DbContext {
         }
 
         let (uid_counter, player_info) =
-            player_util::create_starting_player_info(player_uid, "ReversedRooms");
+            player_util::create_starting_player_info(globals, player_uid, "ReversedRooms");
         let player_info_blob = serialize_player_info(&player_info);
 
         let _: PlayerData = self
@@ -75,7 +79,7 @@ impl DbContext {
     }
 
     pub async fn save_player_data(&self, last_uid: u32, player_info: &PlayerInfo) -> Result<()> {
-        let player_uid = player_info.uid.unwrap();
+        let player_uid = *player_info.uid();
 
         let _: PlayerData = self
             .0

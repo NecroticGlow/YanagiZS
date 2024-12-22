@@ -1,20 +1,16 @@
 use super::*;
 
-pub async fn on_rpc_get_fashion_store_info_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcGetFashionStoreInfoArg,
-) -> Result<RpcGetFashionStoreInfoRet, i32> {
-    Ok(RpcGetFashionStoreInfoRet {
+pub async fn on_rpc_get_fashion_store_data_arg(
+    _: &mut NetworkContext<'_, '_, RpcGetFashionStoreDataArg>,
+) -> Result<RpcGetFashionStoreDataRet, i32> {
+    Ok(RpcGetFashionStoreDataRet {
         retcode: 0,
-        info: FashionStoreInfo::default(),
+        data: FashionStoreData::default(),
     })
 }
 
 pub async fn on_rpc_get_shopping_mall_info_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcGetShoppingMallInfoArg,
+    _: &mut NetworkContext<'_, '_, RpcGetShoppingMallInfoArg>,
 ) -> Result<RpcGetShoppingMallInfoRet, i32> {
     Ok(RpcGetShoppingMallInfoRet {
         retcode: 0,
@@ -22,10 +18,8 @@ pub async fn on_rpc_get_shopping_mall_info_arg(
     })
 }
 
-pub async fn on_rpc_get_recharge_item_list_arg(
-    _: &RpcPtcContext,
-    _: &mut PlayerSession,
-    _: RpcGetRechargeItemListArg,
-) -> Result<RpcGetRechargeItemListRet, i32> {
-    Ok(RpcGetRechargeItemListRet::default())
+pub async fn on_rpc_recharge_get_item_list_arg(
+    _: &mut NetworkContext<'_, '_, RpcRechargeGetItemListArg>,
+) -> Result<RpcRechargeGetItemListRet, i32> {
+    Ok(RpcRechargeGetItemListRet::default())
 }

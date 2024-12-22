@@ -1,5 +1,5 @@
 [package]
-name = "yanagi-gate-server"
+name = "evelyn-gate-server"
 edition = "2021"
 version.workspace = true
 
@@ -34,6 +34,6 @@ common.workspace = true
 qwer.workspace = true
 qwer-rpc.workspace = true
 protocol.workspace = true
-yanagi-proto.workspace = true
-yanagi-encryption.workspace = true
-yanagi-http-client.workspace = true
+evelyn-proto.workspace = true
+evelyn-encryption.workspace = true
+evelyn-http-client.workspace = true

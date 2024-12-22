@@ -1,8 +1,8 @@
 use std::time::Duration;
 
 use common::config::*;
+use evelyn_http_client::AutopatchClient;
 use serde::Deserialize;
-use yanagi_http_client::AutopatchClient;
 
 use crate::GameServerConfig;
 

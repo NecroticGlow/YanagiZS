@@ -1,8 +1,10 @@
 use crate::{
-    packet::{read_common_values, DecodeError, NetPacket},
+    packet::{DecodeError, NetPacket, PacketData},
     session::Session,
     AppState,
 };
+use evelyn_encryption::rsa;
+use evelyn_proto::*;
 use qwer_rpc::{
     middleware::{AccountMiddlewareModel, MiddlewareModel},
     RpcCallError,
@@ -10,8 +12,6 @@ use qwer_rpc::{
 use rand::RngCore;
 use std::{net::SocketAddr, time::Duration};
 use tracing::{debug, error};
-use yanagi_encryption::rsa;
-use yanagi_proto::*;
 
 const GAME_SERVER_END_POINT: &str = "127.0.0.1:10101";
 
@@ -28,7 +28,7 @@ pub async fn decode_and_handle(
     state: &'static AppState,
     buf: &[u8],
 ) -> Result<(), PacketHandlingError> {
-    let (cmd_id, _, _) = read_common_values(buf)?;
+    let cmd_id = buf.get_cmd_id()?;
     let end_point = GAME_SERVER_END_POINT.parse::<SocketAddr>().unwrap();
 
     tracing::debug!("received cmd_id: {cmd_id}");
@@ -51,7 +51,7 @@ pub async fn decode_and_handle(
                 session.rpc_ptc_point.lock().await,
                 end_point,
                 middleware_list,
-                Duration::from_secs(30)
+                Duration::from_secs(2)
             )
         }
         cmd_id => debug!("received cmd_id: {cmd_id}, session is not logged in, expected PlayerGetTokenCsReq (cmd_id: {})", PlayerGetTokenCsReq::CMD_ID),

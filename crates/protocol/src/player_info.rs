@@ -1,5 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
+use protocol_macros::property_accessors;
 use qwer::{OctData, PropertyDoubleKeyHashMap, PropertyHashMap, PropertyHashSet};
 
 use crate::action_info::ActionInfo;
@@ -86,6 +87,7 @@ pub struct EventGraphsInfo {
 #[derive(OctData, Clone, Debug, Default)]
 #[property_object(u16, 0x01)]
 #[root]
+#[property_accessors]
 pub struct PlayerInfo {
     #[tag = 1]
     pub uid: Option<u64>,
@@ -211,10 +213,13 @@ pub struct PlayerInfo {
     pub hollow_info: Option<HollowInfo>,
     #[tag = 57]
     pub main_city_avatar_id: Option<u32>,
+    #[tag = 58]
+    pub selected_post_girl: Option<PropertyHashSet<u32>>,
 }
 
 #[derive(OctData, Clone, Debug, Default)]
 #[property_object]
+#[property_accessors]
 pub struct DungeonCollection {
     #[tag = 1]
     pub dungeons: Option<PropertyHashMap<u64, DungeonInfo>>,
@@ -264,6 +269,7 @@ pub struct VideotapeInfo {
 
 #[derive(OctData, Clone, Debug, Default)]
 #[property_object]
+#[property_accessors]
 pub struct ArchiveInfo {
     #[tag = 1]
     pub videotaps_info: Option<PropertyHashMap<i32, VideotapeInfo>>,
@@ -273,6 +279,7 @@ pub struct ArchiveInfo {
 
 #[derive(OctData, Clone, Debug)]
 #[property_object]
+#[property_accessors]
 pub struct UnlockInfo {
     #[tag = 1]
     pub unlocked_list: Option<PropertyHashSet<i32>>,
@@ -283,6 +290,7 @@ pub struct UnlockInfo {
 
 #[derive(OctData, Clone, Debug, Default)]
 #[property_object]
+#[property_accessors]
 pub struct YorozuyaInfo {
     #[tag = 1]
     pub last_refresh_timestamp_common: Option<u64>,
@@ -333,6 +341,7 @@ pub struct EquipGachaInfo {
 
 #[derive(OctData, Clone, Debug)]
 #[property_object]
+#[property_accessors]
 pub struct BeginnerProcedureInfo {
     #[tag = 1]
     pub procedure_id: Option<i32>,
@@ -340,6 +349,7 @@ pub struct BeginnerProcedureInfo {
 
 #[derive(OctData, Clone, Debug, Default)]
 #[property_object]
+#[property_accessors]
 pub struct PlayerPosInMainCity {
     #[tag = 1]
     pub position: Option<Vector3f>,
@@ -777,6 +787,7 @@ pub struct SectionInfo {
 
 #[derive(OctData, Clone, Debug, Default)]
 #[property_object]
+#[property_accessors]
 pub struct SingleDungeonGroup {
     #[tag = 1]
     pub dungeons: Option<PropertyHashMap<u64, DungeonTable>>,
@@ -874,6 +885,7 @@ pub struct AreasInfo {
 
 #[derive(OctData, Clone, Debug)]
 #[property_object]
+#[property_accessors]
 pub struct BGMInfo {
     #[tag = 1]
     pub bgm_id: Option<u32>,

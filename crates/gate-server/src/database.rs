@@ -5,7 +5,7 @@ use surrealdb::{
     Surreal,
 };
 
-const DB_NAMESPACE: &str = "yanagi";
+const DB_NAMESPACE: &str = "evelyn";
 const GAME_DB_NAME: &str = "nap";
 
 const USER_UID_COUNTER: &str = "user_uid_cnt";

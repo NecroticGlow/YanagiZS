@@ -1,8 +1,8 @@
 use std::time::Duration;
 
 use common::config::*;
-use yanagi_encryption::xor::MhyXorpad;
-use yanagi_http_client::AutopatchClient;
+use evelyn_encryption::xor::MhyXorpad;
+use evelyn_http_client::AutopatchClient;
 
 use crate::GateServerConfig;
 
