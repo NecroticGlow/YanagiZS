@@ -30,6 +30,7 @@ pub struct Session {
     pub conv: u32,
     pub addr: SocketAddr,
     pub rpc_ptc_point: Mutex<Arc<RpcPtcPoint>>,
+    game_server_addr: OnceLock<SocketAddr>,
     player_uid: OnceLock<u32>,
     initial_xorpad: &'static MhyXorpad,
     secret_key: OnceLock<MhyXorpad>,
@@ -50,6 +51,7 @@ impl Session {
             addr,
             kcp_evt_tx,
             rpc_ptc_point,
+            game_server_addr: OnceLock::new(),
             initial_xorpad,
             seq_id: AtomicU32::new(0),
             secret_key: OnceLock::new(),
@@ -122,6 +124,14 @@ impl Session {
         self.xor_packet_body(&mut buf).unwrap();
 
         let _ = self.kcp_evt_tx.send((self.conv, KcpEvent::Send(buf)));
+    }
+
+    pub fn bind_game_server(&self, addr: SocketAddr) {
+        let _ = self.game_server_addr.set(addr);
+    }
+
+    pub fn game_server_addr(&self) -> SocketAddr {
+        *self.game_server_addr.get().unwrap()
     }
 
     pub fn set_secret_key(&self, seed: u64) {

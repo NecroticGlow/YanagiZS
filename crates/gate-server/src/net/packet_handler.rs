@@ -3,6 +3,7 @@ use crate::{
     session::Session,
     AppState,
 };
+use common::config::ServiceType;
 use evelyn_encryption::rsa;
 use evelyn_proto::*;
 use qwer_rpc::{
@@ -10,10 +11,8 @@ use qwer_rpc::{
     RpcCallError,
 };
 use rand::RngCore;
-use std::{net::SocketAddr, time::Duration};
+use std::time::Duration;
 use tracing::{debug, error};
-
-const GAME_SERVER_END_POINT: &str = "127.0.0.1:10101";
 
 #[derive(thiserror::Error, Debug)]
 pub enum PacketHandlingError {
@@ -29,7 +28,6 @@ pub async fn decode_and_handle(
     buf: &[u8],
 ) -> Result<(), PacketHandlingError> {
     let cmd_id = buf.get_cmd_id()?;
-    let end_point = GAME_SERVER_END_POINT.parse::<SocketAddr>().unwrap();
 
     tracing::debug!("received cmd_id: {cmd_id}");
     match cmd_id {
@@ -44,6 +42,7 @@ pub async fn decode_and_handle(
                 is_resend: false,
             })];
 
+            let end_point = session.game_server_addr();
             decode_and_forward_proto!(
                 cmd_id,
                 buf,
@@ -108,6 +107,14 @@ async fn on_player_get_token_cs_req(
             (1, 0)
         }
     };
+
+    // TODO: multiple game servers, choose random one by load balance manager
+    session.bind_game_server(
+        state
+            .environment
+            .get_server_end_point(ServiceType::GameServer, 0)
+            .unwrap(),
+    );
 
     session.send_rsp(
         head.packet_id,

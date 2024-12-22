@@ -1,27 +1,22 @@
 use std::{
-    sync::{LazyLock, OnceLock},
+    process::ExitCode,
+    sync::{Arc, LazyLock, OnceLock},
     time::Duration,
 };
 
-use anyhow::Result;
-use common::{
-    config::{DatabaseSettings, TomlConfig},
-    time_util,
-};
+use anyhow::{bail, Result};
+use common::config::{DatabaseSettings, ServiceType, TomlConfig};
 use dashmap::DashMap;
 use database::DbContext;
-use level::LevelEventGraphManager;
+use level::{EventConfigManager, LevelEventGraphManager};
 use player_info::PlayerInfo;
 use player_util::UidCounter;
-use qwer::ProtocolID;
-use qwer_rpc::{
-    middleware::MiddlewareModel, ProtocolServiceFrontend, RpcPtcContext, RpcPtcServiceFrontend,
-};
+use qwer_rpc::{ProtocolServiceFrontend, RpcPtcPoint, RpcPtcServiceFrontend};
 
 use evelyn_data::{ArchiveFile, NapFileCfg};
 use protocol::*;
 use serde::Deserialize;
-use tracing::{error, info, warn};
+use tracing::error;
 
 mod database;
 mod level;
@@ -32,8 +27,10 @@ mod scene_section_util;
 
 #[derive(Deserialize)]
 pub struct GameServerConfig {
+    pub service_id: u32,
     pub server_name: String,
     pub bind_client_version: String,
+    pub config_autopatch_url: String,
     pub design_data_url: String,
     pub database: DatabaseSettings,
 }
@@ -52,6 +49,7 @@ struct PlayerSession {
 
 pub struct Globals {
     pub filecfg: NapFileCfg,
+    pub event_config_mgr: EventConfigManager,
 }
 
 static GLOBALS: OnceLock<Globals> = OnceLock::new();
@@ -59,98 +57,88 @@ static GLOBALS: OnceLock<Globals> = OnceLock::new();
 static PLAYER_MAP: LazyLock<DashMap<u64, PlayerSession>> = LazyLock::new(|| DashMap::new());
 static DB_CONTEXT: OnceLock<DbContext> = OnceLock::new();
 
+const SERVICE_TYPE: ServiceType = ServiceType::GameServer;
+
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> ExitCode {
     static CONFIG: LazyLock<GameServerConfig> =
         LazyLock::new(|| GameServerConfig::load_or_create("gameserver.toml"));
-    static DESIGN_DATA: OnceLock<ArchiveFile> = OnceLock::new();
 
     common::print_splash();
     common::logging::init(tracing::Level::DEBUG);
-    let remote_cfg = remote_config::download(&CONFIG);
+
+    if let Err(err) = init_assets(&CONFIG) {
+        error!("Failed to initialize assets. Reason: {err}");
+        return ExitCode::FAILURE;
+    }
+
+    if let Err(err) = init_database(&CONFIG).await {
+        error!(
+            "Failed to connect to surrealdb. Is it configured properly and running?\nReason: {err}"
+        );
+        return ExitCode::FAILURE;
+    }
+
+    if let Err(err) = init_network(&CONFIG).await {
+        error!("Failed to initialize network: {err}");
+        return ExitCode::FAILURE;
+    }
+
+    // sleep, service stuff is running in separate task
+    tokio::time::sleep(Duration::from_secs(u64::MAX)).await;
+    ExitCode::SUCCESS
+}
+
+fn init_assets(config: &'static GameServerConfig) -> Result<()> {
+    static DESIGN_DATA: OnceLock<ArchiveFile> = OnceLock::new();
+
+    let remote_cfg = remote_config::download(config);
     let design_data_blk = remote_config::download_design_data_blk(&remote_cfg.version_info);
     let main_city_script =
         remote_config::download_main_city_script_config(&remote_cfg.version_info);
 
-    let _ = DESIGN_DATA.set(evelyn_data::read_archive_file(std::io::Cursor::new(
-        &design_data_blk,
-    ))?);
+    let _ = DESIGN_DATA.set(
+        evelyn_data::read_archive_file(std::io::Cursor::new(&design_data_blk))
+            .expect("failed to read blk file"),
+    );
 
     GLOBALS.get_or_init(|| Globals {
         filecfg: NapFileCfg::new(&DESIGN_DATA.get().unwrap()),
+        event_config_mgr: EventConfigManager::new(&main_city_script).unwrap(),
     });
 
-    level::load_script_config(&main_city_script);
-
-    let db_context = DbContext::connect(&CONFIG.database).await?;
-    DB_CONTEXT.get_or_init(|| db_context);
-
-    let service = RpcPtcServiceFrontend::new(ProtocolServiceFrontend::new());
-    let listen_point = service.create_point(Some("0.0.0.0:10101".parse()?)).await?;
-
-    listen_point.register_rpc_recv(RpcPlayerLoginArg::PROTOCOL_ID, on_rpc_player_login_arg);
-    rpc_ptc::register_handlers(&listen_point);
-
-    // sleep, service stuff is running in separate task
-    tokio::time::sleep(Duration::from_secs(u64::MAX)).await;
     Ok(())
 }
 
-pub async fn on_rpc_player_login_arg(ctx: RpcPtcContext) {
-    let _arg: RpcPlayerLoginArg = ctx.get_arg().unwrap();
-
-    let Some(MiddlewareModel::Account(account_mw)) = ctx
-        .middleware_list
-        .iter()
-        .find(|&mw| matches!(mw, MiddlewareModel::Account(_)))
-    else {
-        warn!("login failed: account middleware is missing");
-        return;
-    };
-
-    let Ok((uid_counter, mut player_info)) = DB_CONTEXT
-        .get()
-        .unwrap()
-        .get_or_create_player_data(GLOBALS.get().unwrap(), account_mw.player_uid)
-        .await
-        .inspect_err(|err| error!("login failed: get_or_create_player_data failed: {err}"))
-    else {
-        ctx.send_ret(RpcPlayerLoginRet { retcode: 1 }).await;
-        return;
-    };
-
-    *player_info.login_times_mut() += 1;
-
-    PLAYER_MAP.insert(
-        account_mw.player_uid,
-        PlayerSession {
-            player_uid: account_mw.player_uid,
-            uid_counter,
-            player_info,
-            level_event_graph_mgr: LevelEventGraphManager::default(),
-            last_save_time: time_util::unix_timestamp(),
-        },
-    );
-
-    info!("player with uid {} is logging in!", account_mw.player_uid);
-    ctx.send_ret(RpcPlayerLoginRet { retcode: 0 }).await;
+async fn init_database(config: &'static GameServerConfig) -> Result<()> {
+    let db_context = DbContext::connect(&config.database).await?;
+    DB_CONTEXT.get_or_init(|| db_context);
+    Ok(())
 }
 
-async fn post_rpc_handle(session: &mut PlayerSession) {
-    let timestamp = time_util::unix_timestamp();
+async fn init_network(config: &'static GameServerConfig) -> Result<()> {
+    static SERVICE: OnceLock<RpcPtcServiceFrontend> = OnceLock::new();
+    static POINT: OnceLock<Arc<RpcPtcPoint>> = OnceLock::new();
 
-    if (timestamp - session.last_save_time) >= 30 {
-        session.last_save_time = timestamp;
-        DB_CONTEXT
-            .get()
-            .unwrap()
-            .save_player_data(session.uid_counter.last_uid(), &session.player_info)
-            .await
-            .expect("failed to save player data");
-
-        info!(
-            "successfully saved player data (uid: {})",
-            session.player_uid
+    let environment = remote_config::download_env_config(&config.config_autopatch_url);
+    let Some(listen_end_point) = environment.get_server_end_point(SERVICE_TYPE, config.service_id)
+    else {
+        bail!(
+            "the instance [{:?}-{}] is missing from environment.json",
+            SERVICE_TYPE,
+            config.service_id
         );
-    }
+    };
+
+    let service = RpcPtcServiceFrontend::new(ProtocolServiceFrontend::new());
+    let Ok(listen_point) = service.create_point(Some(listen_end_point)).await else {
+        bail!("failed to create_point at tcp://{listen_end_point}. Is another instance of this service already running?");
+    };
+
+    rpc_ptc::register_handlers(&listen_point);
+
+    let _ = SERVICE.set(service);
+    let _ = POINT.set(listen_point);
+
+    Ok(())
 }

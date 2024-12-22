@@ -12,9 +12,14 @@ pub struct RemoteConfiguration {
     pub port: u16,
 }
 
-pub fn download(config: &'static GateServerConfig) -> RemoteConfiguration {
-    const RETRY_TIME: Duration = Duration::from_secs(5);
+const RETRY_TIME: Duration = Duration::from_secs(5);
 
+pub fn download_env_config(autopatch_url: &'static str) -> EnvironmentConfiguration {
+    let client = AutopatchClient::new(&autopatch_url).retry_after(RETRY_TIME);
+    client.fetch_until_success("environment.json")
+}
+
+pub fn download(config: &'static GateServerConfig) -> RemoteConfiguration {
     let client = AutopatchClient::new(&config.design_data_url).retry_after(RETRY_TIME);
     let app_config: AppConfig = client.fetch_until_success("/config.json");
     let version_info = app_config

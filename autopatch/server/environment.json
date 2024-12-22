@@ -1,0 +1,9 @@
+{
+	"services": [
+		{
+			"type": "game-server",
+			"id": 0,
+			"addr": "127.0.0.1:10101"
+		}
+	]
+}

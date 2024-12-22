@@ -2,6 +2,7 @@ pub mod config;
 pub mod db_const;
 pub mod logging;
 pub mod time_util;
+pub mod util;
 
 pub enum ServiceStatus {
     StopServer(u64),

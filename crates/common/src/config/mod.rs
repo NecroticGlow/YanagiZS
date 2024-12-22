@@ -3,10 +3,12 @@ pub use local_toml::{DatabaseSettings, TomlConfig};
 
 mod app;
 mod encryption;
+mod environment;
 mod server_list;
 
 pub use app::*;
 pub use encryption::*;
+pub use environment::*;
 use serde::{Deserialize, Deserializer};
 pub use server_list::*;
 

@@ -1,6 +1,7 @@
 use serde::de::DeserializeOwned;
 use std::io::Read;
 use std::{thread, time::Duration};
+use tracing::warn;
 
 #[derive(thiserror::Error, Debug)]
 pub enum FetchJsonError {
@@ -39,7 +40,10 @@ impl AutopatchClient<'_, Duration> {
         loop {
             match self.fetch_json(url) {
                 Ok(data) => break data,
-                Err(FetchJsonError::Http(_)) => thread::sleep(self.retry_after),
+                Err(FetchJsonError::Http(_)) => {
+                    warn!("failed to fetch {url}, is autopatch server running?");
+                    thread::sleep(self.retry_after);
+                }
                 Err(FetchJsonError::Deserialize(err)) => panic!("failed to deserlize {url}: {err}"),
             }
         }

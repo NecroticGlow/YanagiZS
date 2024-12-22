@@ -52,16 +52,15 @@ async fn processing_loop(
                 let conv_id = conv;
                 register_ptc_handlers!(rpc_ptc_point, conv_id, TX);
 
-                session_map.insert(
+                let session = Session::new(
                     conv,
-                    Arc::new(Session::new(
-                        conv,
-                        addr,
-                        &state.remote_config.xorpad,
-                        tx.clone(),
-                        Mutex::new(rpc_ptc_point),
-                    )),
+                    addr,
+                    &state.remote_config.xorpad,
+                    tx.clone(),
+                    Mutex::new(rpc_ptc_point),
                 );
+
+                session_map.insert(conv, Arc::new(session));
             }
             Some(Input::RemoveSession(conv)) => {
                 session_map.remove(&conv);

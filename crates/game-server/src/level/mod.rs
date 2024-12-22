@@ -1,24 +1,33 @@
-use std::{
-    collections::{HashMap, VecDeque},
-    sync::OnceLock,
-};
+use std::collections::{HashMap, VecDeque};
 
+use common::util::Ptr;
 use evelyn_eventgraph::MainCityConfig;
 use event_graph_runner::EventGraphGroup;
 use protocol::PtcSyncEventInfoArg;
 use qwer_rpc::RpcPtcContext;
 use tracing::instrument;
 
-use crate::PlayerSession;
+use crate::{Globals, PlayerSession};
 
 mod event_graph_runner;
 
-static MAINCITY_CONFIG: OnceLock<MainCityConfig> = OnceLock::new();
+#[derive(thiserror::Error, Debug)]
+pub enum EventConfigLoadError {
+    #[error("failed to parse main city config: {0}")]
+    MainCityConfigParseFail(serde_json::Error),
+}
 
-pub fn load_script_config(main_city_config_data: &str) {
-    let _ = MAINCITY_CONFIG.set(
-        serde_json::from_str(main_city_config_data).expect("failed to load main city config data"),
-    );
+pub struct EventConfigManager {
+    pub main_city_config: MainCityConfig,
+}
+
+impl EventConfigManager {
+    pub fn new(main_city_config_data: &str) -> Result<Self, EventConfigLoadError> {
+        Ok(Self {
+            main_city_config: serde_json::from_str(main_city_config_data)
+                .map_err(EventConfigLoadError::MainCityConfigParseFail)?,
+        })
+    }
 }
 
 pub struct BoundInteractInfo {
@@ -32,18 +41,31 @@ pub struct BoundInteractInfo {
     pub scale_r: f64,
 }
 
-#[derive(Default)]
 pub struct LevelEventGraphManager {
     pub bound_interact_map: HashMap<u64, (i32, BoundInteractInfo)>,
     pub listen_events: HashMap<i32, HashMap<String, String>>,
     pub scene_uid: u64,
     pub section_id: i32,
+    pub globals: Ptr<Globals>,
     pending_events_info_sync: VecDeque<PtcSyncEventInfoArg>,
     cur_interaction: i32,
     cur_interact_unit_tag: i32,
 }
 
 impl LevelEventGraphManager {
+    pub fn new(globals: Ptr<Globals>) -> Self {
+        Self {
+            globals,
+            bound_interact_map: HashMap::new(),
+            listen_events: HashMap::new(),
+            scene_uid: 0,
+            section_id: 0,
+            pending_events_info_sync: VecDeque::new(),
+            cur_interaction: 0,
+            cur_interact_unit_tag: 0,
+        }
+    }
+
     pub fn begin_interact(&mut self, interaction: i32, unit_tag: i32) {
         self.cur_interaction = interaction;
         self.cur_interact_unit_tag = unit_tag;
@@ -69,9 +91,11 @@ impl LevelEventGraphManager {
 
 #[instrument(skip(session))]
 pub fn on_section_added(session: &mut PlayerSession, scene_uid: u64, section_id: i32) {
-    let section_config = MAINCITY_CONFIG
-        .get()
-        .unwrap()
+    let globals = session.level_event_graph_mgr.globals.clone();
+
+    let section_config = globals
+        .event_config_mgr
+        .main_city_config
         .sections
         .get(&section_id)
         .unwrap();
@@ -87,9 +111,11 @@ pub fn on_section_added(session: &mut PlayerSession, scene_uid: u64, section_id:
 
 #[instrument(skip(session))]
 pub fn on_section_enter(session: &mut PlayerSession, scene_uid: u64, section_id: i32) {
-    let section_config = MAINCITY_CONFIG
-        .get()
-        .unwrap()
+    let globals = session.level_event_graph_mgr.globals.clone();
+
+    let section_config = globals
+        .event_config_mgr
+        .main_city_config
         .sections
         .get(&section_id)
         .unwrap();
@@ -117,9 +143,11 @@ pub fn fire_event(session: &mut PlayerSession, interact_id: i32, event_name: &st
         .flatten()
         .cloned()
     {
-        let section_config = MAINCITY_CONFIG
-            .get()
-            .unwrap()
+        let globals = session.level_event_graph_mgr.globals.clone();
+
+        let section_config = globals
+            .event_config_mgr
+            .main_city_config
             .sections
             .get(&session.level_event_graph_mgr.section_id)
             .unwrap();

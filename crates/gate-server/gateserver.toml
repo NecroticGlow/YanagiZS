@@ -1,6 +1,7 @@
 server_name = "nap_dev_01"
-bind_client_version = "OSPRODWin1.3.0"
-design_data_url = "http://127.0.0.1:10000/design_data/NAP_Publish_AppStore_1.4"
+bind_client_version = "CNBetaWin1.5.0"
+config_autopatch_url = "http://127.0.0.1:10000/server/"
+design_data_url = "http://127.0.0.1:10000/design_data/NAP_Publish_AppStore_1.5"
 
 [database]
 url = "localhost:8000"

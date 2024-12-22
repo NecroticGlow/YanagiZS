@@ -1,4 +1,6 @@
+use common::time_util;
 use qwer_rpc::{middleware::MiddlewareModel, RpcPtcContext, RpcPtcPoint};
+use tracing::info;
 
 use crate::{Globals, PlayerSession};
 use paste::paste;
@@ -8,6 +10,7 @@ use qwer::*;
 mod abyss;
 mod activity;
 mod arcade;
+mod auth;
 mod babel_tower;
 mod battle_pass;
 mod camp_idle;
@@ -104,7 +107,7 @@ macro_rules! rpc_handlers {
                         }
                     }
 
-                    crate::post_rpc_handle(&mut session).await;
+                    crate::rpc_ptc::post_rpc_handle(&mut session).await;
                 }
             )*
         }
@@ -148,7 +151,7 @@ macro_rules! ptc_handlers {
 
                     [<on_ $name:snake _arg>](&mut ctx).await;
                     ::tracing::info!("successfully handled {}", stringify!($name));
-                    crate::post_rpc_handle(&mut session).await;
+                    crate::rpc_ptc::post_rpc_handle(&mut session).await;
                 }
             )*
         }
@@ -160,6 +163,11 @@ macro_rules! ptc_handlers {
 }
 
 pub fn register_handlers(listen_point: &RpcPtcPoint) {
+    listen_point.register_rpc_recv(
+        RpcPlayerLoginArg::PROTOCOL_ID,
+        auth::on_rpc_player_login_arg,
+    );
+
     rpc_handlers! {
         (listen_point)
         RpcGetPlayerBasicInfo;
@@ -264,5 +272,24 @@ pub fn register_handlers(listen_point: &RpcPtcPoint) {
     ptc_handlers! {
         (listen_point)
         PtcKeepAlive;
+    }
+}
+
+pub async fn post_rpc_handle(session: &mut PlayerSession) {
+    let timestamp = time_util::unix_timestamp();
+
+    if (timestamp - session.last_save_time) >= 30 {
+        session.last_save_time = timestamp;
+        crate::DB_CONTEXT
+            .get()
+            .unwrap()
+            .save_player_data(session.uid_counter.last_uid(), &session.player_info)
+            .await
+            .expect("failed to save player data");
+
+        info!(
+            "successfully saved player data (uid: {})",
+            session.player_uid
+        );
     }
 }

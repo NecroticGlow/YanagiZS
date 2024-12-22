@@ -86,23 +86,21 @@ fn impl_struct_conversions(
         };
 
         let proto_ident = &proto.ident;
-        let qwer_ident = match proto_ident.to_string() {
-            s if s.ends_with("ScRsp") => Ident::new(
-                &format!("Rpc{}Ret", &s.as_str()[..s.len() - 5]),
-                proto_ident.span(),
-            ),
-            s if s.ends_with("CsReq") => Ident::new(
-                &format!("Rpc{}Arg", &s.as_str()[..s.len() - 5]),
-                proto_ident.span(),
-            ),
-            s if s.ends_with("ScNotify") => Ident::new(
-                &format!("Ptc{}Arg", &s.as_str()[..s.len() - 8]),
-                proto_ident.span(),
-            ),
-            s if s.ends_with("Notify") => Ident::new(
-                &format!("Ptc{}Arg", &s.as_str()[..s.len() - 6]),
-                proto_ident.span(),
-            ),
+        let proto_ident_str = proto_ident.to_string();
+
+        let qwer_ident = match proto_ident_str.as_str() {
+            s if s.ends_with("ScRsp") => {
+                Ident::new(&format!("Rpc{}Ret", &s[..s.len() - 5]), proto_ident.span())
+            }
+            s if s.ends_with("CsReq") => {
+                Ident::new(&format!("Rpc{}Arg", &s[..s.len() - 5]), proto_ident.span())
+            }
+            s if s.ends_with("ScNotify") => {
+                Ident::new(&format!("Ptc{}Arg", &s[..s.len() - 8]), proto_ident.span())
+            }
+            s if s.ends_with("Notify") => {
+                Ident::new(&format!("Ptc{}Arg", &s[..s.len() - 6]), proto_ident.span())
+            }
             _ => proto_ident.clone(),
         };
 
@@ -116,7 +114,7 @@ fn impl_struct_conversions(
             continue;
         };
 
-        if let Some(req_base_name) = proto_ident.to_string().strip_suffix("CsReq") {
+        if let Some(req_base_name) = proto_ident_str.strip_suffix("CsReq") {
             if proto.attrs.iter().any(|attr| {
                 attr.path()
                     .get_ident()
@@ -169,7 +167,7 @@ fn impl_struct_conversions(
                     }
                 }
             }
-        } else if let Some(_ntf_base_name) = proto_ident.to_string().strip_suffix("ScNotify") {
+        } else if let Some(_ntf_base_name) = proto_ident_str.strip_suffix("ScNotify") {
             ptc_registers = quote! {
                 #ptc_registers
                 $point.register_rpc_recv(
@@ -187,7 +185,7 @@ fn impl_struct_conversions(
                     ));
                 },
             };
-        } else if let Some(_ntf_base_name) = proto_ident.to_string().strip_suffix("Notify") {
+        } else if let Some(_ntf_base_name) = proto_ident_str.strip_suffix("Notify") {
             proto_to_qwer_matches = quote! {
                 #proto_to_qwer_matches
                 #proto_ident::CMD_ID => {

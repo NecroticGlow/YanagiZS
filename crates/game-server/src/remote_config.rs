@@ -32,8 +32,14 @@ struct DataVersion {
     pub files: Vec<FileEntry>,
 }
 
+const RETRY_TIME: Duration = Duration::from_secs(5);
+
+pub fn download_env_config(autopatch_url: &'static str) -> EnvironmentConfiguration {
+    let client = AutopatchClient::new(&autopatch_url).retry_after(RETRY_TIME);
+    client.fetch_until_success("environment.json")
+}
+
 pub fn download_design_data_blk(version_info: &ConfigurationInfo) -> Box<[u8]> {
-    const RETRY_TIME: Duration = Duration::from_secs(5);
     let url = format!(
         "{}/{}/{}/",
         version_info.design_data_url, version_info.platform, version_info.environment
@@ -54,7 +60,6 @@ pub fn download_design_data_blk(version_info: &ConfigurationInfo) -> Box<[u8]> {
 }
 
 pub fn download_main_city_script_config(version_info: &ConfigurationInfo) -> String {
-    const RETRY_TIME: Duration = Duration::from_secs(5);
     let url = format!(
         "{}/{}/{}/",
         version_info.design_data_url, version_info.platform, version_info.environment
@@ -66,8 +71,6 @@ pub fn download_main_city_script_config(version_info: &ConfigurationInfo) -> Str
 }
 
 pub fn download(config: &'static GameServerConfig) -> RemoteConfiguration {
-    const RETRY_TIME: Duration = Duration::from_secs(5);
-
     let client = AutopatchClient::new(&config.design_data_url).retry_after(RETRY_TIME);
     let mut app_config: AppConfig = client.fetch_until_success("/config.json");
     let version_info = app_config
