@@ -9,7 +9,8 @@ use protocol::{
         RamenData, ShopsInfo, SingleDungeonGroup, TipsInfo, Transform, UnlockInfo, VHSStoreData,
         Vector3f, VideotapeInfo, YorozuyaInfo,
     },
-    AutoRecoveryInfo,
+    quest_info::QuestInfo,
+    AutoRecoveryInfo, QuestState,
 };
 use qwer::{
     pdkhashmap, phashmap, phashset, PropertyDoubleKeyHashMap, PropertyHashMap, PropertyHashSet,
