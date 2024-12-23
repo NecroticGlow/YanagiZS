@@ -132,6 +132,7 @@ mod handlers {
             player_info.items_mut().insert(
                 uid,
                 ItemInfo::AvatarInfo {
+                    ngfmenjlddl: 6,
                     uid,
                     id: 0,
                     count: 1,
