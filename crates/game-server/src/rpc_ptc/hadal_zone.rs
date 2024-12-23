@@ -1,7 +1,12 @@
-use super::*;
+use evelyn_codegen::handlers;
 
-pub async fn on_rpc_get_hadal_zone_data_arg(
-    _: &mut NetworkContext<'_, '_, RpcGetHadalZoneDataArg>,
-) -> Result<RpcGetHadalZoneDataRet, i32> {
-    Ok(RpcGetHadalZoneDataRet::default())
+#[handlers]
+mod handlers {
+    use crate::rpc_ptc::*;
+
+    pub async fn on_rpc_get_hadal_zone_data_arg(
+        _ctx: &mut NetworkContext<'_, RpcGetHadalZoneDataArg>,
+    ) -> Result<RpcGetHadalZoneDataRet, Retcode> {
+        Ok(RpcGetHadalZoneDataRet::default())
+    }
 }

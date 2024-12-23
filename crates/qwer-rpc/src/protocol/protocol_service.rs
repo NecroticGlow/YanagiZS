@@ -191,7 +191,7 @@ impl ProtocolServiceFrontendImpl {
     }
 
     async fn do_recv(&self, session: Arc<ProtocolSessionImpl>) -> Result<(), ProtocolError> {
-        let mut buf = [0u8; 16384];
+        let mut buf = [0u8; 8];
         let mut n = 0;
         loop {
             while n < 8 {
@@ -211,10 +211,12 @@ impl ProtocolServiceFrontendImpl {
                 return Err(ProtocolError::HeaderSize(ProtocolHeader::SIZE, header_len));
             }
 
-            while n < 8 + header_len + body_len {
+            n = 0;
+            let mut buf = vec![0u8; header_len + body_len];
+            while n < header_len + body_len {
                 match session
                     .linker
-                    .recv_some(&mut buf[n..8 + header_len + body_len])
+                    .recv_some(&mut buf[n..header_len + body_len])
                     .await?
                 {
                     r if r > 0 => n += r,
@@ -222,7 +224,7 @@ impl ProtocolServiceFrontendImpl {
                 }
             }
 
-            let mut ps = ProtocolStream::new(Cursor::new(&mut buf[8..8 + header_len + body_len]));
+            let mut ps = ProtocolStream::new(Cursor::new(&mut buf[..header_len + body_len]));
             let header = ProtocolHeader::unmarshal_from(&mut ps)?;
 
             if let Some(channel_info) = session.entity.get_channel_info(to_channel) {

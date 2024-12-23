@@ -35,3 +35,18 @@ polymorphic!(
     } = 5,
     Manual { } = 4,
 );
+
+impl QuestInfo {
+    pub fn get_quest_type(&self) -> u32 {
+        match self {
+            Self::ArchiveFile { .. } => 1,
+            Self::DungeonInner { .. } => 2,
+            Self::Hollow { .. } => 3,
+            Self::Manual { .. } => 4,
+            Self::MainCity { .. } => 5,
+            Self::Challenge { .. } => 6,
+            Self::ArchiveBattle { .. } => 7,
+            Self::Knowledge { .. } => 8,
+        }
+    }
+}

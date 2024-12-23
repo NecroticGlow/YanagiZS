@@ -24,7 +24,10 @@ pub async fn on_rpc_player_login_arg(ctx: RpcPtcContext) {
         .await
         .inspect_err(|err| error!("login failed: get_or_create_player_data failed: {err}"))
     else {
-        ctx.send_ret(RpcPlayerLoginRet { retcode: 1 }).await;
+        ctx.send_ret(RpcPlayerLoginRet {
+            retcode: Retcode::Fail,
+        })
+        .await;
         return;
     };
 
@@ -44,5 +47,8 @@ pub async fn on_rpc_player_login_arg(ctx: RpcPtcContext) {
     );
 
     info!("player with uid {} is logging in!", account_mw.player_uid);
-    ctx.send_ret(RpcPlayerLoginRet { retcode: 0 }).await;
+    ctx.send_ret(RpcPlayerLoginRet {
+        retcode: Retcode::Succ,
+    })
+    .await;
 }

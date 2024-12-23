@@ -1,10 +1,15 @@
-use super::*;
+use evelyn_codegen::handlers;
 
-pub async fn on_rpc_get_camp_idle_data_arg(
-    _: &mut NetworkContext<'_, '_, RpcGetCampIdleDataArg>,
-) -> Result<RpcGetCampIdleDataRet, i32> {
-    Ok(RpcGetCampIdleDataRet {
-        retcode: 0,
-        camp_idle_data: CampIdleData::default(),
-    })
+#[handlers]
+mod handlers {
+    use crate::rpc_ptc::*;
+
+    pub async fn on_rpc_get_camp_idle_data_arg(
+        _ctx: &mut NetworkContext<'_, RpcGetCampIdleDataArg>,
+    ) -> Result<RpcGetCampIdleDataRet, Retcode> {
+        Ok(RpcGetCampIdleDataRet {
+            retcode: Retcode::Succ,
+            camp_idle_data: CampIdleData::default(),
+        })
+    }
 }

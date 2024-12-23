@@ -93,6 +93,24 @@ impl From<GetActivityDataScRsp> for ::protocol::RpcGetActivityDataRet {
     }
 }
 #[allow(unused)]
+impl From<::protocol::RpcFinishArchiveQuestArg> for FinishArchiveQuestCsReq {
+    fn from(value: ::protocol::RpcFinishArchiveQuestArg) -> Self {
+        Self {
+            quest_id: value.quest_id.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<FinishArchiveQuestCsReq> for ::protocol::RpcFinishArchiveQuestArg {
+    fn from(value: FinishArchiveQuestCsReq) -> Self {
+        Self {
+            quest_id: value.quest_id.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
 impl From<::protocol::AutoRecoveryInfo> for AutoRecoveryInfo {
     fn from(value: ::protocol::AutoRecoveryInfo) -> Self {
         Self {
@@ -702,6 +720,28 @@ impl From<GetRoleCardDataCsReq> for ::protocol::RpcGetRoleCardDataArg {
     }
 }
 #[allow(unused)]
+impl From<::protocol::RpcPerformEndArg> for PerformEndCsReq {
+    fn from(value: ::protocol::RpcPerformEndArg) -> Self {
+        Self {
+            perform_id: value.perform_id.into(),
+            perform_type: value.perform_type.into(),
+            perform_uid: value.perform_uid.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<PerformEndCsReq> for ::protocol::RpcPerformEndArg {
+    fn from(value: PerformEndCsReq) -> Self {
+        Self {
+            perform_id: value.perform_id.into(),
+            perform_type: value.perform_type.into(),
+            perform_uid: value.perform_uid.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
 impl From<::protocol::RpcGetArchiveDataRet> for GetArchiveDataScRsp {
     fn from(value: ::protocol::RpcGetArchiveDataRet) -> Self {
         Self {
@@ -934,6 +974,48 @@ impl From<LevelPerformInfo> for ::protocol::LevelPerformInfo {
         Self {
             time: value.time.into(),
             weather: value.weather.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<::protocol::RpcPerformJumpArg> for PerformJumpCsReq {
+    fn from(value: ::protocol::RpcPerformJumpArg) -> Self {
+        Self {
+            perform_id: value.perform_id.into(),
+            perform_uid: value.perform_uid.into(),
+            perform_type: value.perform_type.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<PerformJumpCsReq> for ::protocol::RpcPerformJumpArg {
+    fn from(value: PerformJumpCsReq) -> Self {
+        Self {
+            perform_id: value.perform_id.into(),
+            perform_uid: value.perform_uid.into(),
+            perform_type: value.perform_type.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<::protocol::RpcPerformTriggerRet> for PerformTriggerScRsp {
+    fn from(value: ::protocol::RpcPerformTriggerRet) -> Self {
+        Self {
+            perform_uid: value.perform_uid.into(),
+            retcode: value.retcode.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<PerformTriggerScRsp> for ::protocol::RpcPerformTriggerRet {
+    fn from(value: PerformTriggerScRsp) -> Self {
+        Self {
+            perform_uid: value.perform_uid.into(),
+            retcode: value.retcode.into(),
             ..Default::default()
         }
     }
@@ -1186,6 +1268,26 @@ impl From<::protocol::RpcGetVhsStoreDataArg> for GetVhsStoreDataCsReq {
 impl From<GetVhsStoreDataCsReq> for ::protocol::RpcGetVhsStoreDataArg {
     fn from(value: GetVhsStoreDataCsReq) -> Self {
         Self { ..Default::default() }
+    }
+}
+#[allow(unused)]
+impl From<::protocol::QuestCollection> for QuestCollection {
+    fn from(value: ::protocol::QuestCollection) -> Self {
+        Self {
+            quest_id_list: value.quest_id_list.into_iter().map(|v| v.into()).collect(),
+            quest_type: value.quest_type.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<QuestCollection> for ::protocol::QuestCollection {
+    fn from(value: QuestCollection) -> Self {
+        Self {
+            quest_id_list: value.quest_id_list.into_iter().map(|v| v.into()).collect(),
+            quest_type: value.quest_type.into(),
+            ..Default::default()
+        }
     }
 }
 #[allow(unused)]
@@ -1885,6 +1987,24 @@ impl From<GetCharacterQuestListCsReq> for ::protocol::RpcGetCharacterQuestListAr
     }
 }
 #[allow(unused)]
+impl From<::protocol::RpcEndNewbieArg> for EndNewbieCsReq {
+    fn from(value: ::protocol::RpcEndNewbieArg) -> Self {
+        Self {
+            group_id: value.group_id.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<EndNewbieCsReq> for ::protocol::RpcEndNewbieArg {
+    fn from(value: EndNewbieCsReq) -> Self {
+        Self {
+            group_id: value.group_id.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
 impl From<::protocol::RpcEnterSectionCompleteArg> for EnterSectionCompleteCsReq {
     fn from(value: ::protocol::RpcEnterSectionCompleteArg) -> Self {
         Self { ..Default::default() }
@@ -1899,13 +2019,27 @@ impl From<EnterSectionCompleteCsReq> for ::protocol::RpcEnterSectionCompleteArg 
 #[allow(unused)]
 impl From<::protocol::QuestData> for QuestData {
     fn from(value: ::protocol::QuestData) -> Self {
-        Self { ..Default::default() }
+        Self {
+            quest_collection_list: value
+                .quest_collection_list
+                .into_iter()
+                .map(|v| v.into())
+                .collect(),
+            ..Default::default()
+        }
     }
 }
 #[allow(unused)]
 impl From<QuestData> for ::protocol::QuestData {
     fn from(value: QuestData) -> Self {
-        Self { ..Default::default() }
+        Self {
+            quest_collection_list: value
+                .quest_collection_list
+                .into_iter()
+                .map(|v| v.into())
+                .collect(),
+            ..Default::default()
+        }
     }
 }
 #[allow(unused)]
@@ -1990,6 +2124,30 @@ impl From<::protocol::RpcGetPrivateMessageDataArg> for GetPrivateMessageDataCsRe
 impl From<GetPrivateMessageDataCsReq> for ::protocol::RpcGetPrivateMessageDataArg {
     fn from(value: GetPrivateMessageDataCsReq) -> Self {
         Self { ..Default::default() }
+    }
+}
+#[allow(unused)]
+impl From<::protocol::RpcBeginArchiveBattleQuestArg> for BeginArchiveBattleQuestCsReq {
+    fn from(value: ::protocol::RpcBeginArchiveBattleQuestArg) -> Self {
+        Self {
+            is_story: value.is_story.into(),
+            avatar_id_list: value.avatar_id_list.into_iter().map(|v| v.into()).collect(),
+            buddy_id: value.buddy_id.into(),
+            quest_id: value.quest_id.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<BeginArchiveBattleQuestCsReq> for ::protocol::RpcBeginArchiveBattleQuestArg {
+    fn from(value: BeginArchiveBattleQuestCsReq) -> Self {
+        Self {
+            is_story: value.is_story.into(),
+            avatar_id_list: value.avatar_id_list.into_iter().map(|v| v.into()).collect(),
+            buddy_id: value.buddy_id.into(),
+            quest_id: value.quest_id.into(),
+            ..Default::default()
+        }
     }
 }
 #[allow(unused)]
@@ -2515,6 +2673,26 @@ impl From<RechargeGetItemListCsReq> for ::protocol::RpcRechargeGetItemListArg {
     }
 }
 #[allow(unused)]
+impl From<::protocol::RpcBeginArchiveBattleQuestRet> for BeginArchiveBattleQuestScRsp {
+    fn from(value: ::protocol::RpcBeginArchiveBattleQuestRet) -> Self {
+        Self {
+            quest_id: value.quest_id.into(),
+            retcode: value.retcode.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<BeginArchiveBattleQuestScRsp> for ::protocol::RpcBeginArchiveBattleQuestRet {
+    fn from(value: BeginArchiveBattleQuestScRsp) -> Self {
+        Self {
+            quest_id: value.quest_id.into(),
+            retcode: value.retcode.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
 impl From<::protocol::ArchiveData> for ArchiveData {
     fn from(value: ::protocol::ArchiveData) -> Self {
         Self {
@@ -2714,6 +2892,46 @@ impl From<UnlockData> for ::protocol::UnlockData {
     }
 }
 #[allow(unused)]
+impl From<::protocol::RpcFinishArchiveQuestRet> for FinishArchiveQuestScRsp {
+    fn from(value: ::protocol::RpcFinishArchiveQuestRet) -> Self {
+        Self {
+            quest_id: value.quest_id.into(),
+            retcode: value.retcode.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<FinishArchiveQuestScRsp> for ::protocol::RpcFinishArchiveQuestRet {
+    fn from(value: FinishArchiveQuestScRsp) -> Self {
+        Self {
+            quest_id: value.quest_id.into(),
+            retcode: value.retcode.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<::protocol::RpcPerformTriggerArg> for PerformTriggerCsReq {
+    fn from(value: ::protocol::RpcPerformTriggerArg) -> Self {
+        Self {
+            perform_type: value.perform_type.into(),
+            perform_id: value.perform_id.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
+impl From<PerformTriggerCsReq> for ::protocol::RpcPerformTriggerArg {
+    fn from(value: PerformTriggerCsReq) -> Self {
+        Self {
+            perform_type: value.perform_type.into(),
+            perform_id: value.perform_id.into(),
+            ..Default::default()
+        }
+    }
+}
+#[allow(unused)]
 impl From<::protocol::RpcGetWishlistDataRet> for GetWishlistDataScRsp {
     fn from(value: ::protocol::RpcGetWishlistDataRet) -> Self {
         Self {
@@ -2782,7 +3000,7 @@ for BeginTrainingCourseBattleCsReq {
         Self {
             buddy_id: value.buddy_id.into(),
             quest_id: value.quest_id.into(),
-            avatars: value.avatars.into_iter().map(|v| v.into()).collect(),
+            avatar_id_list: value.avatar_id_list.into_iter().map(|v| v.into()).collect(),
             ..Default::default()
         }
     }
@@ -2794,7 +3012,7 @@ for ::protocol::RpcBeginTrainingCourseBattleArg {
         Self {
             buddy_id: value.buddy_id.into(),
             quest_id: value.quest_id.into(),
-            avatars: value.avatars.into_iter().map(|v| v.into()).collect(),
+            avatar_id_list: value.avatar_id_list.into_iter().map(|v| v.into()).collect(),
             ..Default::default()
         }
     }
@@ -3408,9 +3626,15 @@ macro_rules! decode_and_forward_proto {
         ::protocol::RpcPlayerOperationArg::from(packet.body); let rpc_ret :
         ::protocol::RpcPlayerOperationRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; $session .send_null_rsp(packet.head.packet_id);
-        }, GetNewsStandDataCsReq::CMD_ID => { let packet = NetPacket:: <
-        ::evelyn_proto::GetNewsStandDataCsReq > ::decode($buf) ?; let rpc_arg =
-        ::protocol::RpcGetNewsStandDataArg::from(packet.body); let rpc_ret :
+        }, FinishArchiveQuestCsReq::CMD_ID => { let packet = NetPacket:: <
+        ::evelyn_proto::FinishArchiveQuestCsReq > ::decode($buf) ?; let rpc_arg =
+        ::protocol::RpcFinishArchiveQuestArg::from(packet.body); let rpc_ret :
+        ::protocol::RpcFinishArchiveQuestRet = $point .call_rpc($addr, rpc_arg,
+        $middlewares, $timeout). await ?; let proto_rsp =
+        ::evelyn_proto::FinishArchiveQuestScRsp::from(rpc_ret); $session .send_rsp(packet
+        .head.packet_id, proto_rsp); }, GetNewsStandDataCsReq::CMD_ID => { let packet =
+        NetPacket:: < ::evelyn_proto::GetNewsStandDataCsReq > ::decode($buf) ?; let
+        rpc_arg = ::protocol::RpcGetNewsStandDataArg::from(packet.body); let rpc_ret :
         ::protocol::RpcGetNewsStandDataRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; let proto_rsp =
         ::evelyn_proto::GetNewsStandDataScRsp::from(rpc_ret); $session .send_rsp(packet
@@ -3487,8 +3711,13 @@ macro_rules! decode_and_forward_proto {
         ::protocol::RpcGetRoleCardDataRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; let proto_rsp =
         ::evelyn_proto::GetRoleCardDataScRsp::from(rpc_ret); $session .send_rsp(packet
-        .head.packet_id, proto_rsp); }, GetGachaDataCsReq::CMD_ID => { let packet =
-        NetPacket:: < ::evelyn_proto::GetGachaDataCsReq > ::decode($buf) ?; let rpc_arg =
+        .head.packet_id, proto_rsp); }, PerformEndCsReq::CMD_ID => { let packet =
+        NetPacket:: < ::evelyn_proto::PerformEndCsReq > ::decode($buf) ?; let rpc_arg =
+        ::protocol::RpcPerformEndArg::from(packet.body); let rpc_ret :
+        ::protocol::RpcPerformEndRet = $point .call_rpc($addr, rpc_arg, $middlewares,
+        $timeout). await ?; $session .send_null_rsp(packet.head.packet_id); },
+        GetGachaDataCsReq::CMD_ID => { let packet = NetPacket:: <
+        ::evelyn_proto::GetGachaDataCsReq > ::decode($buf) ?; let rpc_arg =
         ::protocol::RpcGetGachaDataArg::from(packet.body); let rpc_ret :
         ::protocol::RpcGetGachaDataRet = $point .call_rpc($addr, rpc_arg, $middlewares,
         $timeout). await ?; $session .send_null_rsp(packet.head.packet_id); },
@@ -3509,9 +3738,14 @@ macro_rules! decode_and_forward_proto {
         ::protocol::RpcGetWebActivityDataRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; let proto_rsp =
         ::evelyn_proto::GetWebActivityDataScRsp::from(rpc_ret); $session .send_rsp(packet
-        .head.packet_id, proto_rsp); }, GetAbyssRewardDataCsReq::CMD_ID => { let packet =
-        NetPacket:: < ::evelyn_proto::GetAbyssRewardDataCsReq > ::decode($buf) ?; let
-        rpc_arg = ::protocol::RpcGetAbyssRewardDataArg::from(packet.body); let rpc_ret :
+        .head.packet_id, proto_rsp); }, PerformJumpCsReq::CMD_ID => { let packet =
+        NetPacket:: < ::evelyn_proto::PerformJumpCsReq > ::decode($buf) ?; let rpc_arg =
+        ::protocol::RpcPerformJumpArg::from(packet.body); let rpc_ret :
+        ::protocol::RpcPerformJumpRet = $point .call_rpc($addr, rpc_arg, $middlewares,
+        $timeout). await ?; $session .send_null_rsp(packet.head.packet_id); },
+        GetAbyssRewardDataCsReq::CMD_ID => { let packet = NetPacket:: <
+        ::evelyn_proto::GetAbyssRewardDataCsReq > ::decode($buf) ?; let rpc_arg =
+        ::protocol::RpcGetAbyssRewardDataArg::from(packet.body); let rpc_ret :
         ::protocol::RpcGetAbyssRewardDataRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; let proto_rsp =
         ::evelyn_proto::GetAbyssRewardDataScRsp::from(rpc_ret); $session .send_rsp(packet
@@ -3684,9 +3918,13 @@ macro_rules! decode_and_forward_proto {
         ::protocol::RpcGetCharacterQuestListRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; let proto_rsp =
         ::evelyn_proto::GetCharacterQuestListScRsp::from(rpc_ret); $session
-        .send_rsp(packet.head.packet_id, proto_rsp); }, EnterSectionCompleteCsReq::CMD_ID
-        => { let packet = NetPacket:: < ::evelyn_proto::EnterSectionCompleteCsReq >
-        ::decode($buf) ?; let rpc_arg =
+        .send_rsp(packet.head.packet_id, proto_rsp); }, EndNewbieCsReq::CMD_ID => { let
+        packet = NetPacket:: < ::evelyn_proto::EndNewbieCsReq > ::decode($buf) ?; let
+        rpc_arg = ::protocol::RpcEndNewbieArg::from(packet.body); let rpc_ret :
+        ::protocol::RpcEndNewbieRet = $point .call_rpc($addr, rpc_arg, $middlewares,
+        $timeout). await ?; $session .send_null_rsp(packet.head.packet_id); },
+        EnterSectionCompleteCsReq::CMD_ID => { let packet = NetPacket:: <
+        ::evelyn_proto::EnterSectionCompleteCsReq > ::decode($buf) ?; let rpc_arg =
         ::protocol::RpcEnterSectionCompleteArg::from(packet.body); let rpc_ret :
         ::protocol::RpcEnterSectionCompleteRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; let proto_rsp =
@@ -3708,6 +3946,13 @@ macro_rules! decode_and_forward_proto {
         ::protocol::RpcGetPrivateMessageDataRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; let proto_rsp =
         ::evelyn_proto::GetPrivateMessageDataScRsp::from(rpc_ret); $session
+        .send_rsp(packet.head.packet_id, proto_rsp); },
+        BeginArchiveBattleQuestCsReq::CMD_ID => { let packet = NetPacket:: <
+        ::evelyn_proto::BeginArchiveBattleQuestCsReq > ::decode($buf) ?; let rpc_arg =
+        ::protocol::RpcBeginArchiveBattleQuestArg::from(packet.body); let rpc_ret :
+        ::protocol::RpcBeginArchiveBattleQuestRet = $point .call_rpc($addr, rpc_arg,
+        $middlewares, $timeout). await ?; let proto_rsp =
+        ::evelyn_proto::BeginArchiveBattleQuestScRsp::from(rpc_ret); $session
         .send_rsp(packet.head.packet_id, proto_rsp); }, PlayerTransactionCsReq::CMD_ID =>
         { let packet = NetPacket:: < ::evelyn_proto::PlayerTransactionCsReq >
         ::decode($buf) ?; let rpc_arg = ::protocol::RpcPlayerTransactionArg::from(packet
@@ -3803,8 +4048,15 @@ macro_rules! decode_and_forward_proto {
         ::protocol::RpcModMainCityAvatarArg::from(packet.body); let rpc_ret :
         ::protocol::RpcModMainCityAvatarRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; $session .send_null_rsp(packet.head.packet_id);
-        }, BeginTrainingCourseBattleCsReq::CMD_ID => { let packet = NetPacket:: <
-        ::evelyn_proto::BeginTrainingCourseBattleCsReq > ::decode($buf) ?; let rpc_arg =
+        }, PerformTriggerCsReq::CMD_ID => { let packet = NetPacket:: <
+        ::evelyn_proto::PerformTriggerCsReq > ::decode($buf) ?; let rpc_arg =
+        ::protocol::RpcPerformTriggerArg::from(packet.body); let rpc_ret :
+        ::protocol::RpcPerformTriggerRet = $point .call_rpc($addr, rpc_arg, $middlewares,
+        $timeout). await ?; let proto_rsp =
+        ::evelyn_proto::PerformTriggerScRsp::from(rpc_ret); $session .send_rsp(packet
+        .head.packet_id, proto_rsp); }, BeginTrainingCourseBattleCsReq::CMD_ID => { let
+        packet = NetPacket:: < ::evelyn_proto::BeginTrainingCourseBattleCsReq >
+        ::decode($buf) ?; let rpc_arg =
         ::protocol::RpcBeginTrainingCourseBattleArg::from(packet.body); let rpc_ret :
         ::protocol::RpcBeginTrainingCourseBattleRet = $point .call_rpc($addr, rpc_arg,
         $middlewares, $timeout). await ?; $session .send_null_rsp(packet.head.packet_id);
@@ -3901,6 +4153,8 @@ macro_rules! impl_qwer_to_proto_match {
     ($process_proto_message:ident) => {
         match qwer.get_protocol_id() { ::protocol::RpcPlayerOperationArg::PROTOCOL_ID =>
         $process_proto_message (PlayerOperationCsReq::from(qwer)),
+        ::protocol::RpcFinishArchiveQuestArg::PROTOCOL_ID => $process_proto_message
+        (FinishArchiveQuestCsReq::from(qwer)),
         ::protocol::RpcGetNewsStandDataArg::PROTOCOL_ID => $process_proto_message
         (GetNewsStandDataCsReq::from(qwer)), ::protocol::RpcModTimeArg::PROTOCOL_ID =>
         $process_proto_message (ModTimeCsReq::from(qwer)),
@@ -3925,13 +4179,16 @@ macro_rules! impl_qwer_to_proto_match {
         ::protocol::RpcGetPlayerMailsArg::PROTOCOL_ID => $process_proto_message
         (GetPlayerMailsCsReq::from(qwer)), ::protocol::RpcGetRoleCardDataArg::PROTOCOL_ID
         => $process_proto_message (GetRoleCardDataCsReq::from(qwer)),
-        ::protocol::RpcGetGachaDataArg::PROTOCOL_ID => $process_proto_message
-        (GetGachaDataCsReq::from(qwer)), ::protocol::RpcGetActivityDataArg::PROTOCOL_ID
-        => $process_proto_message (GetActivityDataCsReq::from(qwer)),
+        ::protocol::RpcPerformEndArg::PROTOCOL_ID => $process_proto_message
+        (PerformEndCsReq::from(qwer)), ::protocol::RpcGetGachaDataArg::PROTOCOL_ID =>
+        $process_proto_message (GetGachaDataCsReq::from(qwer)),
+        ::protocol::RpcGetActivityDataArg::PROTOCOL_ID => $process_proto_message
+        (GetActivityDataCsReq::from(qwer)),
         ::protocol::RpcGetPlayerNetworkDataArg::PROTOCOL_ID => $process_proto_message
         (GetPlayerNetworkDataCsReq::from(qwer)),
         ::protocol::RpcGetWebActivityDataArg::PROTOCOL_ID => $process_proto_message
-        (GetWebActivityDataCsReq::from(qwer)),
+        (GetWebActivityDataCsReq::from(qwer)), ::protocol::RpcPerformJumpArg::PROTOCOL_ID
+        => $process_proto_message (PerformJumpCsReq::from(qwer)),
         ::protocol::RpcGetAbyssRewardDataArg::PROTOCOL_ID => $process_proto_message
         (GetAbyssRewardDataCsReq::from(qwer)),
         ::protocol::RpcReportEmbattleInfoArg::PROTOCOL_ID => $process_proto_message
@@ -3990,14 +4247,17 @@ macro_rules! impl_qwer_to_proto_match {
         (BattleReportCsReq::from(qwer)),
         ::protocol::RpcGetCharacterQuestListArg::PROTOCOL_ID => $process_proto_message
         (GetCharacterQuestListCsReq::from(qwer)),
-        ::protocol::RpcEnterSectionCompleteArg::PROTOCOL_ID => $process_proto_message
-        (EnterSectionCompleteCsReq::from(qwer)),
+        ::protocol::RpcEndNewbieArg::PROTOCOL_ID => $process_proto_message
+        (EndNewbieCsReq::from(qwer)), ::protocol::RpcEnterSectionCompleteArg::PROTOCOL_ID
+        => $process_proto_message (EnterSectionCompleteCsReq::from(qwer)),
         ::protocol::RpcGetChatEmojiListArg::PROTOCOL_ID => $process_proto_message
         (GetChatEmojiListCsReq::from(qwer)),
         ::protocol::RpcAbyssArpeggioGetDataArg::PROTOCOL_ID => $process_proto_message
         (AbyssArpeggioGetDataCsReq::from(qwer)),
         ::protocol::RpcGetPrivateMessageDataArg::PROTOCOL_ID => $process_proto_message
         (GetPrivateMessageDataCsReq::from(qwer)),
+        ::protocol::RpcBeginArchiveBattleQuestArg::PROTOCOL_ID => $process_proto_message
+        (BeginArchiveBattleQuestCsReq::from(qwer)),
         ::protocol::RpcPlayerTransactionArg::PROTOCOL_ID => $process_proto_message
         (PlayerTransactionCsReq::from(qwer)),
         ::protocol::RpcGetAvatarRecommendEquipArg::PROTOCOL_ID => $process_proto_message
@@ -4031,8 +4291,10 @@ macro_rules! impl_qwer_to_proto_match {
         ::protocol::PtcSyncEventInfoArg::PROTOCOL_ID => $process_proto_message
         (SyncEventInfoScNotify::from(qwer)),
         ::protocol::RpcModMainCityAvatarArg::PROTOCOL_ID => $process_proto_message
-        (ModMainCityAvatarCsReq::from(qwer)), ::protocol::PtcPlayerSyncArg::PROTOCOL_ID
-        => $process_proto_message (PlayerSyncScNotify::from(qwer)),
+        (ModMainCityAvatarCsReq::from(qwer)),
+        ::protocol::RpcPerformTriggerArg::PROTOCOL_ID => $process_proto_message
+        (PerformTriggerCsReq::from(qwer)), ::protocol::PtcPlayerSyncArg::PROTOCOL_ID =>
+        $process_proto_message (PlayerSyncScNotify::from(qwer)),
         ::protocol::RpcBeginTrainingCourseBattleArg::PROTOCOL_ID =>
         $process_proto_message (BeginTrainingCourseBattleCsReq::from(qwer)),
         ::protocol::RpcRunEventGraphArg::PROTOCOL_ID => $process_proto_message

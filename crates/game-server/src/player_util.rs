@@ -72,15 +72,8 @@ pub fn create_starting_player_info(
         joined_chat_rooms: Some(Vec::with_capacity(0)),
         scene_uid: Some(0),
         archive_info: Some(ArchiveInfo {
-            videotaps_info: Some(phashmap![(
-                1010001,
-                VideotapeInfo {
-                    finished: true,
-                    star_count: phashmap![],
-                    awarded_star: phashmap![],
-                }
-            )]),
-            hollow_archive_id: Some(phashset![1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+            videotaps_info: Some(phashmap![]),
+            hollow_archive_id: Some(phashset![]),
         }),
         auto_recovery_info: Some(phashmap![(
             501,
@@ -399,6 +392,45 @@ pub fn create_starting_player_info(
                     first_get_time,
                 },
             );
+        });
+
+    let quest_collection_uid = counter.next();
+    globals
+        .filecfg
+        .archive_file_quest_template_tb
+        .data()
+        .unwrap_or_default()
+        .iter()
+        .for_each(|tmpl| {
+            player_info.quest_data_mut().quests_mut().insert(
+                quest_collection_uid,
+                tmpl.id(),
+                QuestInfo::ArchiveFile {
+                    id: tmpl.id(),
+                    finished_count: 0,
+                    collection_uid: quest_collection_uid,
+                    progress: 0,
+                    parent_quest_id: 0,
+                    state: QuestState::Ready,
+                    finish_condition_progress: phashmap!(),
+                    progress_time: 0,
+                    sort_id: 0,
+                },
+            );
+
+            player_info.archive_info_mut().videotaps_info_mut().insert(
+                tmpl.id(),
+                VideotapeInfo {
+                    finished: true,
+                    star_count: phashmap!(),
+                    awarded_star: phashmap!(),
+                },
+            );
+
+            player_info
+                .archive_info_mut()
+                .hollow_archive_id_mut()
+                .insert(tmpl.archive_id());
         });
 
     (counter, player_info)

@@ -1,0 +1,1 @@
+surreal start -u root -p root surrealkv://evelyn

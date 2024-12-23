@@ -36,3 +36,4 @@ common.workspace = true
 evelyn-data.workspace = true
 evelyn-eventgraph.workspace = true
 evelyn-http-client.workspace = true
+evelyn-codegen.workspace = true

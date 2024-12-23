@@ -5,8 +5,8 @@ use std::{
 
 use anyhow::Result;
 use protocol::{
-    PlayerBasicInfo, RpcGetPlayerBasicInfoArg, RpcGetPlayerBasicInfoRet, RpcPlayerLoginArg,
-    RpcPlayerLoginRet,
+    PlayerBasicInfo, Retcode, RpcGetPlayerBasicInfoArg, RpcGetPlayerBasicInfoRet,
+    RpcPlayerLoginArg, RpcPlayerLoginRet,
 };
 use qwer::ProtocolID;
 use qwer_rpc::{ProtocolServiceFrontend, RpcPtcContext, RpcPtcPoint, RpcPtcServiceFrontend};
@@ -38,7 +38,10 @@ async fn handle_login(ctx: RpcPtcContext) {
     let arg = ctx.get_arg::<RpcPlayerLoginArg>().unwrap();
     println!("Login: {arg:?}");
 
-    ctx.send_ret(RpcPlayerLoginRet { retcode: 0 }).await;
+    ctx.send_ret(RpcPlayerLoginRet {
+        retcode: Retcode::Succ,
+    })
+    .await;
 }
 
 async fn handle_get_basic_info(ctx: RpcPtcContext) {
@@ -49,7 +52,7 @@ async fn handle_get_basic_info(ctx: RpcPtcContext) {
             nick_name: String::from("Name"),
             ..Default::default()
         },
-        retcode: 1337,
+        retcode: Retcode::Succ,
     })
     .await;
 }

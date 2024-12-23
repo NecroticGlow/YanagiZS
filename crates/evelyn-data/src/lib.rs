@@ -34,6 +34,8 @@ file_cfg! {
     WeaponTemplateTb;
     UnlockConfigTemplateTb;
     PostGirlConfigTemplateTb;
+    ArchiveFileQuestTemplateTb;
+    ArchiveBattleQuestTemplateTb;
 }
 
 pub fn read_archive_file<R: Read>(buf: R) -> std::io::Result<ArchiveFile> {

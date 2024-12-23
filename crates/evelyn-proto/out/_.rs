@@ -393,7 +393,7 @@ pub struct Lpngllokoak {
 #[cmdid(7387)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct Cihemoehfcp {
+pub struct FinishArchiveQuestCsReq {
     #[xor(10282)]
     #[prost(uint32, tag = "10")]
     pub edocamnigal: u32,
@@ -551,7 +551,7 @@ pub struct Loiephdbodb {
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Incpaafdjfp {
     #[prost(uint32, tag = "1")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[prost(uint32, tag = "2")]
     pub pppgieonlkn: u32,
 }
@@ -3074,7 +3074,7 @@ pub struct Haihklljchg {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Fiioacnkipf {
     #[prost(int32, tag = "1")]
-    pub bgdbdgihfnm: i32,
+    pub perform_id: i32,
     #[prost(int32, tag = "2")]
     pub ppfhopialfk: i32,
     #[prost(int32, tag = "3")]
@@ -6652,7 +6652,7 @@ pub struct Bdcdnpkdpkp {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Jjhofggfokp {
     #[prost(int32, tag = "1")]
-    pub bgdbdgihfnm: i32,
+    pub perform_id: i32,
     #[prost(int32, tag = "2")]
     pub ppfhopialfk: i32,
     #[prost(int32, tag = "3")]
@@ -7264,12 +7264,12 @@ pub struct Glakjapinkf {
     #[prost(bool, tag = "3")]
     pub ihfpegpbigb: bool,
     #[prost(bool, tag = "4")]
-    pub adnimofnaam: bool,
+    pub is_story: bool,
     #[xor(13571)]
     #[prost(uint32, tag = "5")]
     pub pemijkbehco: u32,
     #[prost(uint32, repeated, tag = "6")]
-    pub avatars: ::prost::alloc::vec::Vec<u32>,
+    pub avatar_id_list: ::prost::alloc::vec::Vec<u32>,
     #[prost(string, tag = "7")]
     pub knamngmdlkf: ::prost::alloc::string::String,
     #[xor(12855)]
@@ -8580,10 +8580,10 @@ pub struct Neinlfmgngn {
 #[cmdid(7152)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct Acaodnojboj {
+pub struct PerformEndCsReq {
     #[xor(2533)]
     #[prost(int32, tag = "1")]
-    pub bgdbdgihfnm: i32,
+    pub perform_id: i32,
     #[xor(9563)]
     #[prost(int32, tag = "3")]
     pub perform_type: i32,
@@ -8592,7 +8592,7 @@ pub struct Acaodnojboj {
     pub bjfhaofhhdn: i32,
     #[xor(10046)]
     #[prost(int64, tag = "11")]
-    pub midfddmmcnk: i64,
+    pub perform_uid: i64,
     #[xor(10006)]
     #[prost(int32, tag = "12")]
     pub ghfpeiogjal: i32,
@@ -10827,12 +10827,12 @@ pub struct Gobainfaimg {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Ccndcpkpecg {
     #[prost(uint32, repeated, tag = "4")]
-    pub avatars: ::prost::alloc::vec::Vec<u32>,
+    pub avatar_id_list: ::prost::alloc::vec::Vec<u32>,
     #[xor(5820)]
     #[prost(uint32, tag = "6")]
     pub quest_id: u32,
     #[prost(bool, tag = "8")]
-    pub adnimofnaam: bool,
+    pub is_story: bool,
     #[prost(uint32, repeated, tag = "11")]
     pub adcdnekgmkn: ::prost::alloc::vec::Vec<u32>,
     #[xor(12904)]
@@ -11694,7 +11694,7 @@ pub struct Jllncfpfepj {
 pub struct Pcfgecdnecf {
     #[xor(7027)]
     #[prost(uint32, tag = "4")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[cmdid(445)]
@@ -12458,7 +12458,7 @@ pub struct Hogomjjdkfk {}
 pub struct Jokkmfijkam {
     #[xor(2785)]
     #[prost(uint32, tag = "11")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[derive(evelyn_proto_derive::XorFields)]
@@ -12507,13 +12507,13 @@ pub struct Adaijgeigno {
 #[cmdid(6780)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct Dhokbpjmihp {
+pub struct PerformJumpCsReq {
     #[xor(11317)]
     #[prost(int32, tag = "1")]
-    pub bgdbdgihfnm: i32,
+    pub perform_id: i32,
     #[xor(1847)]
     #[prost(int64, tag = "2")]
-    pub midfddmmcnk: i64,
+    pub perform_uid: i64,
     #[xor(2928)]
     #[prost(int32, tag = "10")]
     pub bmomahffnpm: i32,
@@ -12630,7 +12630,7 @@ pub struct Mbjnpibffen {
     #[prost(bool, tag = "4")]
     pub cgpklbdidee: bool,
     #[prost(int32, tag = "5")]
-    pub bgdbdgihfnm: i32,
+    pub perform_id: i32,
     #[prost(bool, tag = "6")]
     pub pigmbbbhhfn: bool,
 }
@@ -12949,10 +12949,10 @@ pub struct Bbilmnhghcf {
 #[cmdid(2747)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct Kfgmlhhboom {
+pub struct PerformTriggerScRsp {
     #[xor(10173)]
     #[prost(int64, tag = "11")]
-    pub midfddmmcnk: i64,
+    pub perform_uid: i64,
     #[xor(8035)]
     #[prost(int32, tag = "15")]
     pub retcode: i32,
@@ -14905,7 +14905,7 @@ pub struct Jfaolioblhl {
 pub struct Mpekgljikmd {
     #[xor(5429)]
     #[prost(uint32, tag = "8")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[derive(evelyn_proto_derive::XorFields)]
@@ -16202,11 +16202,11 @@ pub struct Odlbjgnpbam {
     /// VMP DETECTED
     ///
     #[prost(bool, tag = "1")]
-    pub adnimofnaam: bool,
+    pub is_story: bool,
     #[prost(message, optional, tag = "3")]
     pub djlgdcpepdi: ::core::option::Option<Mikpakifoof>,
     #[prost(uint32, repeated, tag = "6")]
-    pub avatars: ::prost::alloc::vec::Vec<u32>,
+    pub avatar_id_list: ::prost::alloc::vec::Vec<u32>,
     #[xor(14077)]
     #[prost(uint32, tag = "7")]
     pub level: u32,
@@ -16417,7 +16417,7 @@ pub struct Hildgkdcnki {
     #[prost(uint32, tag = "6")]
     pub quest_id: u32,
     #[prost(uint32, repeated, tag = "11")]
-    pub avatars: ::prost::alloc::vec::Vec<u32>,
+    pub avatar_id_list: ::prost::alloc::vec::Vec<u32>,
     #[prost(uint32, repeated, tag = "15")]
     pub adcdnekgmkn: ::prost::alloc::vec::Vec<u32>,
 }
@@ -16825,7 +16825,7 @@ pub struct Bdnkmdnpaoi {
 #[derive(evelyn_proto_derive::CmdID)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Lffimnmngfk {
+pub struct QuestCollection {
     #[prost(message, optional, tag = "3")]
     pub kfkfaeaioid: ::core::option::Option<Gblpekkbcnl>,
     #[prost(message, optional, tag = "1")]
@@ -16833,7 +16833,7 @@ pub struct Lffimnmngfk {
     #[prost(message, optional, tag = "15")]
     pub bdcmnepkdeb: ::core::option::Option<Mnpbdjpefda>,
     #[prost(uint32, repeated, tag = "11")]
-    pub ipamenlnnii: ::prost::alloc::vec::Vec<u32>,
+    pub quest_id_list: ::prost::alloc::vec::Vec<u32>,
     #[prost(message, optional, tag = "10")]
     pub oojindljbil: ::core::option::Option<Cgohegefdof>,
     #[prost(uint32, repeated, tag = "1961")]
@@ -17040,7 +17040,7 @@ pub struct Nfnabebhkpc {
     #[prost(bool, tag = "4")]
     pub cgpklbdidee: bool,
     #[prost(int32, tag = "5")]
-    pub bgdbdgihfnm: i32,
+    pub perform_id: i32,
     #[prost(bool, tag = "6")]
     pub pigmbbbhhfn: bool,
 }
@@ -18351,7 +18351,7 @@ pub struct Ilikkcldmdh {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Ieicljljgab {
     #[prost(uint32, tag = "1")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[prost(message, repeated, tag = "2")]
     pub migeokokhlj: ::prost::alloc::vec::Vec<Fjjkfpbbnen>,
 }
@@ -18634,7 +18634,7 @@ pub struct Mkkpfolkfmd {
 pub struct Dmemlhllmbb {
     #[xor(5928)]
     #[prost(uint32, tag = "13")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[cmdid(242)]
@@ -18786,7 +18786,7 @@ pub struct Cajdaokefpd {
     pub ddhlnammmce: u32,
     #[xor(12306)]
     #[prost(uint32, tag = "6")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[xor(15985)]
     #[prost(uint32, tag = "7")]
     pub quest_id: u32,
@@ -20661,7 +20661,7 @@ pub struct Pjgpcfpajap {
     #[prost(message, optional, tag = "3")]
     pub opifmadekhg: ::core::option::Option<Fefflmnapal>,
     #[prost(uint32, repeated, tag = "4")]
-    pub ipamenlnnii: ::prost::alloc::vec::Vec<u32>,
+    pub quest_id_list: ::prost::alloc::vec::Vec<u32>,
     #[prost(message, optional, tag = "5")]
     pub kndmhjabdlf: ::core::option::Option<Jobffnabfoo>,
     #[prost(message, optional, tag = "6")]
@@ -20717,7 +20717,7 @@ pub struct GetAvatarDataScRsp {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Kpbjcpldbln {
     #[prost(message, optional, tag = "1")]
-    pub aljahocmjkj: ::core::option::Option<Dcppcjpbgaj>,
+    pub group_id: ::core::option::Option<Dcppcjpbgaj>,
     #[prost(enumeration = "Icpegjpcbim", tag = "2")]
     pub apcmbapajja: i32,
 }
@@ -20726,7 +20726,7 @@ pub struct Kpbjcpldbln {
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Ljfoifgfcpn {
     #[prost(uint32, tag = "1")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[derive(evelyn_proto_derive::XorFields)]
@@ -21188,7 +21188,7 @@ pub struct Ldhpfnmpgif {
 pub struct Cdabgidkgde {
     #[xor(7397)]
     #[prost(uint32, tag = "5")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[xor(19)]
     #[prost(int32, tag = "1")]
     pub retcode: i32,
@@ -21382,7 +21382,7 @@ pub struct Jgckpfgmgci {
 pub struct Kaepkoonhmd {
     #[xor(3882)]
     #[prost(uint32, tag = "15")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[xor(5402)]
     #[prost(uint32, tag = "5")]
     pub bkdcjelhjge: u32,
@@ -22398,7 +22398,7 @@ pub struct Geppkclakhk {
     #[prost(message, optional, tag = "12")]
     pub djlgdcpepdi: ::core::option::Option<Mikpakifoof>,
     #[prost(uint32, repeated, tag = "6")]
-    pub avatars: ::prost::alloc::vec::Vec<u32>,
+    pub avatar_id_list: ::prost::alloc::vec::Vec<u32>,
     #[xor(15942)]
     #[prost(uint32, tag = "15")]
     pub mkajhbclpgl: u32,
@@ -23126,7 +23126,7 @@ pub struct Kmfbnkcgbde {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Dmpoojgadfp {
     #[prost(message, optional, tag = "1")]
-    pub aljahocmjkj: ::core::option::Option<Dcppcjpbgaj>,
+    pub group_id: ::core::option::Option<Dcppcjpbgaj>,
     #[prost(bool, tag = "2")]
     pub docdpmnpfah: bool,
 }
@@ -23347,10 +23347,10 @@ pub struct Hapmgkbldcm {
 #[cmdid(3426)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct Bikmlpbehbn {
+pub struct EndNewbieCsReq {
     #[xor(4619)]
     #[prost(uint32, tag = "12")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[derive(evelyn_proto_derive::XorFields)]
@@ -23475,7 +23475,7 @@ pub struct Limjpaoifpn {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct QuestData {
     #[prost(message, repeated, tag = "15")]
-    pub noecjeiefhm: ::prost::alloc::vec::Vec<Lffimnmngfk>,
+    pub quest_collection_list: ::prost::alloc::vec::Vec<QuestCollection>,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[derive(evelyn_proto_derive::XorFields)]
@@ -24698,7 +24698,7 @@ pub struct Fbhbiaccaml {
 #[cmdid(5010)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Kbnpabiheeg {
+pub struct BeginArchiveBattleQuestCsReq {
     /// VMP DETECTED
     ///
     #[xor(15197)]
@@ -24707,9 +24707,9 @@ pub struct Kbnpabiheeg {
     #[prost(uint32, repeated, tag = "5")]
     pub adcdnekgmkn: ::prost::alloc::vec::Vec<u32>,
     #[prost(bool, tag = "7")]
-    pub adnimofnaam: bool,
+    pub is_story: bool,
     #[prost(uint32, repeated, tag = "8")]
-    pub avatars: ::prost::alloc::vec::Vec<u32>,
+    pub avatar_id_list: ::prost::alloc::vec::Vec<u32>,
     #[xor(13229)]
     #[prost(uint32, tag = "10")]
     pub buddy_id: u32,
@@ -27900,7 +27900,7 @@ pub struct Ihkndocjjcn {
     #[prost(uint32, tag = "1")]
     pub lomfahojifd: u32,
     #[prost(uint32, tag = "2")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[prost(uint32, tag = "3")]
     pub nlfefnhbmha: u32,
     #[prost(message, optional, tag = "4")]
@@ -28981,7 +28981,7 @@ pub struct Bkpoeajblbo {
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Oipdbhajfkh {
     #[prost(uint32, tag = "1")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[prost(uint32, tag = "2")]
     pub akjaijmlfek: u32,
 }
@@ -30143,7 +30143,7 @@ pub struct Mnjkkogdpka {
     pub hfkkjmlhpbi: ::prost::alloc::string::String,
     #[xor(13559)]
     #[prost(uint32, tag = "1546")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[prost(uint32, repeated, tag = "471")]
     pub lllajdbgpkp: ::prost::alloc::vec::Vec<u32>,
     #[prost(bool, tag = "1308")]
@@ -30753,7 +30753,7 @@ pub struct Jpnngdplban {
 #[cmdid(8153)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct Kibphjjoagd {
+pub struct BeginArchiveBattleQuestScRsp {
     /// VMP DETECTED
     ///
     #[xor(5090)]
@@ -31406,12 +31406,12 @@ pub struct ArchiveData {
     #[prost(message, repeated, tag = "3")]
     pub videotaps_info: ::prost::alloc::vec::Vec<VideotapeInfo>,
     #[prost(uint32, repeated, tag = "7")]
-    pub eiapbejmbim: ::prost::alloc::vec::Vec<u32>,
+    pub hollow_archive_id_list: ::prost::alloc::vec::Vec<u32>,
     #[xor(7)]
     #[prost(int32, tag = "5")]
     pub cakldomlmfb: i32,
     #[prost(uint32, repeated, tag = "1")]
-    pub hollow_archive_id_list: ::prost::alloc::vec::Vec<u32>,
+    pub ibbofjpbpgb: ::prost::alloc::vec::Vec<u32>,
     #[prost(uint32, repeated, tag = "14")]
     pub bidicjkgfol: ::prost::alloc::vec::Vec<u32>,
 }
@@ -31514,7 +31514,7 @@ pub struct Jkgncpmgbjp {
     #[prost(bool, tag = "4")]
     pub cgpklbdidee: bool,
     #[prost(int32, tag = "5")]
-    pub bgdbdgihfnm: i32,
+    pub perform_id: i32,
     #[prost(bool, tag = "6")]
     pub pigmbbbhhfn: bool,
 }
@@ -32202,7 +32202,7 @@ pub struct Cnfgafiagle {
 pub struct Hdgegkfdknm {
     #[xor(16272)]
     #[prost(uint32, tag = "5")]
-    pub bgdbdgihfnm: u32,
+    pub perform_id: u32,
     #[xor(11370)]
     #[prost(uint32, tag = "1")]
     pub kifomlmhioc: u32,
@@ -32417,7 +32417,7 @@ pub struct Kolmfplmkah {
     #[prost(bool, tag = "4")]
     pub cgpklbdidee: bool,
     #[prost(int32, tag = "5")]
-    pub bgdbdgihfnm: i32,
+    pub perform_id: i32,
     #[prost(bool, tag = "6")]
     pub pigmbbbhhfn: bool,
 }
@@ -32969,7 +32969,7 @@ pub struct Cgjpipgphpj {
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Kkiiblagjnn {
     #[prost(uint32, tag = "1")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[prost(bool, tag = "2")]
     pub docdpmnpfah: bool,
 }
@@ -34222,7 +34222,7 @@ pub struct Lidojnmgjfn {
 #[cmdid(5601)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct Bbinhoibddg {
+pub struct FinishArchiveQuestScRsp {
     #[xor(11706)]
     #[prost(uint32, tag = "4")]
     pub edocamnigal: u32,
@@ -34292,13 +34292,13 @@ pub struct Gnpganackod {
 #[cmdid(3850)]
 #[derive(evelyn_proto_derive::XorFields)]
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct Kfhbjjfphlk {
+pub struct PerformTriggerCsReq {
     #[xor(9685)]
     #[prost(int32, tag = "1")]
     pub perform_type: i32,
     #[xor(7456)]
     #[prost(int32, tag = "2")]
-    pub bgdbdgihfnm: i32,
+    pub perform_id: i32,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[derive(evelyn_proto_derive::XorFields)]
@@ -34701,7 +34701,7 @@ pub struct BeginTrainingCourseBattleCsReq {
     #[prost(uint32, tag = "9")]
     pub quest_id: u32,
     #[prost(uint32, repeated, tag = "13")]
-    pub avatars: ::prost::alloc::vec::Vec<u32>,
+    pub avatar_id_list: ::prost::alloc::vec::Vec<u32>,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[derive(evelyn_proto_derive::XorFields)]
@@ -34869,7 +34869,7 @@ pub struct Jnadedmkeip {
     #[prost(uint32, repeated, tag = "14")]
     pub lfpdhabjkpl: ::prost::alloc::vec::Vec<u32>,
     #[prost(uint32, repeated, tag = "9")]
-    pub avatars: ::prost::alloc::vec::Vec<u32>,
+    pub avatar_id_list: ::prost::alloc::vec::Vec<u32>,
     #[prost(uint32, repeated, tag = "1")]
     pub aiomkcpcdlg: ::prost::alloc::vec::Vec<u32>,
     #[prost(uint32, repeated, tag = "11")]
@@ -37649,7 +37649,7 @@ pub struct Pjoilfiibim {
     pub clndebnlamc: i64,
     #[xor(8091)]
     #[prost(uint32, tag = "14")]
-    pub aljahocmjkj: u32,
+    pub group_id: u32,
     #[xor(4742)]
     #[prost(uint32, tag = "6")]
     pub jkhadapfhjj: u32,
@@ -37725,7 +37725,7 @@ pub struct Bflggeoaddf {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Hglimfleaha {
     #[prost(uint32, repeated, tag = "14")]
-    pub eiapbejmbim: ::prost::alloc::vec::Vec<u32>,
+    pub hollow_archive_id_list: ::prost::alloc::vec::Vec<u32>,
     #[prost(uint32, repeated, tag = "10")]
     pub bidicjkgfol: ::prost::alloc::vec::Vec<u32>,
     #[prost(uint32, repeated, tag = "12")]
@@ -38677,7 +38677,7 @@ pub struct Bgieddfbdco {
     #[prost(uint32, tag = "6")]
     pub eikhecdaegm: u32,
     #[prost(uint32, repeated, tag = "13")]
-    pub avatars: ::prost::alloc::vec::Vec<u32>,
+    pub avatar_id_list: ::prost::alloc::vec::Vec<u32>,
 }
 #[derive(evelyn_proto_derive::CmdID)]
 #[cmdid(2708)]

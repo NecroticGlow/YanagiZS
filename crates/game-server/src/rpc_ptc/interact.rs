@@ -1,49 +1,52 @@
-use tracing::{debug, instrument};
+use evelyn_codegen::handlers;
 
-use crate::level;
+#[handlers]
+mod handlers {
+    use crate::rpc_ptc::*;
 
-use super::*;
+    use tracing::debug;
 
-#[instrument(skip_all)]
-pub async fn on_rpc_interact_with_client_entity_arg(
-    ctx: &mut NetworkContext<'_, '_, RpcInteractWithClientEntityArg>,
-) -> Result<RpcInteractWithClientEntityRet, i32> {
-    debug!("{:?}", &ctx.arg);
-    Ok(RpcInteractWithClientEntityRet::default())
-}
+    use crate::level;
 
-#[instrument(skip_all)]
-pub async fn on_rpc_interact_with_unit_arg(
-    ctx: &mut NetworkContext<'_, '_, RpcInteractWithUnitArg>,
-) -> Result<RpcInteractWithUnitRet, i32> {
-    debug!("{:?}", &ctx.arg);
+    pub async fn on_rpc_interact_with_client_entity_arg(
+        ctx: &mut NetworkContext<'_, RpcInteractWithClientEntityArg>,
+    ) -> Result<RpcInteractWithClientEntityRet, Retcode> {
+        debug!("{:?}", &ctx.arg);
+        Ok(RpcInteractWithClientEntityRet::default())
+    }
 
-    ctx.session
-        .level_event_graph_mgr
-        .begin_interact(ctx.arg.interaction, ctx.arg.npc_tag_id);
+    pub async fn on_rpc_interact_with_unit_arg(
+        ctx: &mut NetworkContext<'_, RpcInteractWithUnitArg>,
+    ) -> Result<RpcInteractWithUnitRet, Retcode> {
+        debug!("{:?}", &ctx.arg);
 
-    level::fire_event(ctx.session, ctx.arg.interaction, "OnInteract");
-    ctx.session
-        .level_event_graph_mgr
-        .sync_event_info(&ctx.rpc_ptc)
-        .await;
+        ctx.session
+            .level_event_graph_mgr
+            .begin_interact(ctx.arg.interaction, ctx.arg.npc_tag_id);
 
-    Ok(RpcInteractWithUnitRet::default())
-}
+        level::fire_event(ctx.session, ctx.arg.interaction, "OnInteract");
+        ctx.session
+            .level_event_graph_mgr
+            .sync_event_info(&ctx.rpc_ptc)
+            .await;
 
-pub async fn on_rpc_run_event_graph_arg(
-    ctx: &mut NetworkContext<'_, '_, RpcRunEventGraphArg>,
-) -> Result<RpcRunEventGraphRet, i32> {
-    ctx.rpc_ptc
-        .send_ptc(PtcUpdateEventGraphArg {
-            owner_type: ctx.arg.owner_type,
-            tag: ctx.arg.tag,
-            event_graph_uid: ctx.arg.event_graph_uid,
-            npc_interaction: String::from("OnInteract"),
-            is_event_success: true,
-            event_graph_owner_uid: ctx.arg.owner_id,
-        })
-        .await;
+        Ok(RpcInteractWithUnitRet::default())
+    }
 
-    Ok(RpcRunEventGraphRet::default())
+    pub async fn on_rpc_run_event_graph_arg(
+        ctx: &mut NetworkContext<'_, RpcRunEventGraphArg>,
+    ) -> Result<RpcRunEventGraphRet, Retcode> {
+        ctx.rpc_ptc
+            .send_ptc(PtcUpdateEventGraphArg {
+                owner_type: ctx.arg.owner_type,
+                tag: ctx.arg.tag,
+                event_graph_uid: ctx.arg.event_graph_uid,
+                npc_interaction: String::from("OnInteract"),
+                is_event_success: true,
+                event_graph_owner_uid: ctx.arg.owner_id,
+            })
+            .await;
+
+        Ok(RpcRunEventGraphRet::default())
+    }
 }

@@ -93,6 +93,56 @@ table PostGirlConfigTemplate {
 	unk_5: [int];
 }
 
+table ArchiveFileQuestTemplate {
+	id: int;
+	archive_id: int;
+	archive_name: string;
+	difficulty_lv: int;
+	show_type: int;
+	recommended_hit_types: [int];
+	video: string;
+	archive_file_name: string;
+	archive_file_num: string;
+	archive_file_ni_ids: [int];
+	auto_distribution: bool;
+	unk_1: bool;
+}
+
+table ArchiveBattleQuestTemplate {
+	id: int;
+	quest_name: string;
+	quest_desc: string;
+	target: string;
+	quest_type: int;
+	chapter: int;
+	difficulty: int;
+	monster_level: int;
+	recommended_level: int;
+	unk_1: int;
+	unk_2: int;
+	hollow_id: int;
+	first_battle_event_id: int;
+	battle_event_id: int;
+	unk_3: int;
+	battle_rank: string;
+	slot_1_avatar: int;
+	slot_2_avatar: int;
+	slot_3_avatar: int;
+	buddy: int;
+	unk_4: bool;
+	unk_5: int;
+	unk_6: bool;
+	chapter_name: string;
+	quest_image: int;
+	unk_7: string;
+	unk_8: bool;
+	unk_9: int;
+	unk_10: bool;
+	unk_11: int;
+	unk_12: string;
+	unk_13: int;
+}
+
 table AvatarBaseTemplateTb {
 	data: [AvatarBaseTemplate];
 }
@@ -107,4 +157,12 @@ table UnlockConfigTemplateTb {
 
 table PostGirlConfigTemplateTb {
 	data: [PostGirlConfigTemplate];
+}
+
+table ArchiveFileQuestTemplateTb {
+	data: [ArchiveFileQuestTemplate];
+}
+
+table ArchiveBattleQuestTemplateTb {
+	data: [ArchiveBattleQuestTemplate];
 }

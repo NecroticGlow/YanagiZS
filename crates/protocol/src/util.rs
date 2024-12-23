@@ -118,11 +118,24 @@ pub fn build_client_dungeon_info(
             .avatars
             .iter()
             .map(|(_, unit)| {
-                let avatar_info = player_info.items().get(&unit.uid).unwrap();
-                AvatarUnitInfo {
-                    avatar_id: *avatar_info.get_id() as u32,
-                }
+                let ItemInfo::AvatarInfo {
+                    id,
+                    robot_id,
+                    is_custom_by_dungeon,
+                    ..
+                } = player_info.items().get(&unit.uid).unwrap()
+                else {
+                    return None;
+                };
+                Some(AvatarUnitInfo {
+                    avatar_id: if *is_custom_by_dungeon {
+                        *robot_id as u32
+                    } else {
+                        *id as u32
+                    },
+                })
             })
+            .flatten()
             .collect(),
         ..Default::default()
     })
@@ -186,6 +199,7 @@ pub fn build_sync_avatar_info_list(player_info: &PlayerInfo) -> Vec<AvatarInfo> 
                 unlocked_talent_num,
                 talent_switch,
                 skills,
+                is_custom_by_dungeon: false,
                 ..
             } = item
             {

@@ -1200,6 +1200,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "evelyn-codegen"
+version = "0.0.1"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.87",
+]
+
+[[package]]
 name = "evelyn-data"
 version = "0.0.1"
 dependencies = [
@@ -1260,6 +1269,7 @@ dependencies = [
  "anyhow",
  "common",
  "dashmap 6.1.0",
+ "evelyn-codegen",
  "evelyn-data",
  "evelyn-eventgraph",
  "evelyn-http-client",
@@ -2448,6 +2458,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "num_enum"
+version = "0.7.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4e613fc340b2220f734a8595782c551f1250e969d87d3be1ae0579e8d4065179"
+dependencies = [
+ "num_enum_derive",
+]
+
+[[package]]
+name = "num_enum_derive"
+version = "0.7.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "af1844ef2428cc3e1cb900be36181049ef3d3193c63e43026cfe202983b27a56"
+dependencies = [
+ "proc-macro-crate",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.87",
+]
+
+[[package]]
 name = "object"
 version = "0.36.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2847,6 +2878,7 @@ dependencies = [
 name = "protocol"
 version = "0.0.1"
 dependencies = [
+ "num_enum",
  "protocol-macros",
  "qwer",
  "thiserror 2.0.0",

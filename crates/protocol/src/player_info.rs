@@ -244,6 +244,7 @@ pub struct BoundNPCAndInteractInfo {
 
 #[derive(OctData, Clone, Debug, Default)]
 #[property_object]
+#[property_accessors]
 pub struct QuestData {
     #[tag = 1]
     pub quests: Option<PropertyDoubleKeyHashMap<u64, i32, QuestInfo>>,

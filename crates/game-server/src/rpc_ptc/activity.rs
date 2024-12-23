@@ -1,16 +1,21 @@
-use super::*;
+use evelyn_codegen::handlers;
 
-pub async fn on_rpc_get_activity_data_arg(
-    _: &mut NetworkContext<'_, '_, RpcGetActivityDataArg>,
-) -> Result<RpcGetActivityDataRet, i32> {
-    Ok(RpcGetActivityDataRet {
-        retcode: 0,
-        ..Default::default()
-    })
-}
+#[handlers]
+mod handlers {
+    use crate::rpc_ptc::*;
 
-pub async fn on_rpc_get_web_activity_data_arg(
-    _: &mut NetworkContext<'_, '_, RpcGetWebActivityDataArg>,
-) -> Result<RpcGetWebActivityDataRet, i32> {
-    Ok(RpcGetWebActivityDataRet::default())
+    pub async fn on_rpc_get_activity_data_arg(
+        _ctx: &mut NetworkContext<'_, RpcGetActivityDataArg>,
+    ) -> Result<RpcGetActivityDataRet, Retcode> {
+        Ok(RpcGetActivityDataRet {
+            retcode: Retcode::Succ,
+            ..Default::default()
+        })
+    }
+
+    pub async fn on_rpc_get_web_activity_data_arg(
+        _ctx: &mut NetworkContext<'_, RpcGetWebActivityDataArg>,
+    ) -> Result<RpcGetWebActivityDataRet, Retcode> {
+        Ok(RpcGetWebActivityDataRet::default())
+    }
 }

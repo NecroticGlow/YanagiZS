@@ -1818,6 +1818,914 @@ impl core::fmt::Debug for PostGirlConfigTemplate<'_> {
       ds.finish()
   }
 }
+pub enum ArchiveFileQuestTemplateOffset {}
+#[derive(Copy, Clone, PartialEq)]
+
+pub struct ArchiveFileQuestTemplate<'a> {
+  pub _tab: flatbuffers::Table<'a>,
+}
+
+impl<'a> flatbuffers::Follow<'a> for ArchiveFileQuestTemplate<'a> {
+  type Inner = ArchiveFileQuestTemplate<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: flatbuffers::Table::new(buf, loc) }
+  }
+}
+
+impl<'a> ArchiveFileQuestTemplate<'a> {
+  pub const VT_ID: flatbuffers::VOffsetT = 4;
+  pub const VT_ARCHIVE_ID: flatbuffers::VOffsetT = 6;
+  pub const VT_ARCHIVE_NAME: flatbuffers::VOffsetT = 8;
+  pub const VT_DIFFICULTY_LV: flatbuffers::VOffsetT = 10;
+  pub const VT_SHOW_TYPE: flatbuffers::VOffsetT = 12;
+  pub const VT_RECOMMENDED_HIT_TYPES: flatbuffers::VOffsetT = 14;
+  pub const VT_VIDEO: flatbuffers::VOffsetT = 16;
+  pub const VT_ARCHIVE_FILE_NAME: flatbuffers::VOffsetT = 18;
+  pub const VT_ARCHIVE_FILE_NUM: flatbuffers::VOffsetT = 20;
+  pub const VT_ARCHIVE_FILE_NI_IDS: flatbuffers::VOffsetT = 22;
+  pub const VT_AUTO_DISTRIBUTION: flatbuffers::VOffsetT = 24;
+  pub const VT_UNK_1: flatbuffers::VOffsetT = 26;
+
+  #[inline]
+  pub unsafe fn init_from_table(table: flatbuffers::Table<'a>) -> Self {
+    ArchiveFileQuestTemplate { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args ArchiveFileQuestTemplateArgs<'args>
+  ) -> flatbuffers::WIPOffset<ArchiveFileQuestTemplate<'bldr>> {
+    let mut builder = ArchiveFileQuestTemplateBuilder::new(_fbb);
+    if let Some(x) = args.archive_file_ni_ids { builder.add_archive_file_ni_ids(x); }
+    if let Some(x) = args.archive_file_num { builder.add_archive_file_num(x); }
+    if let Some(x) = args.archive_file_name { builder.add_archive_file_name(x); }
+    if let Some(x) = args.video { builder.add_video(x); }
+    if let Some(x) = args.recommended_hit_types { builder.add_recommended_hit_types(x); }
+    builder.add_show_type(args.show_type);
+    builder.add_difficulty_lv(args.difficulty_lv);
+    if let Some(x) = args.archive_name { builder.add_archive_name(x); }
+    builder.add_archive_id(args.archive_id);
+    builder.add_id(args.id);
+    builder.add_unk_1(args.unk_1);
+    builder.add_auto_distribution(args.auto_distribution);
+    builder.finish()
+  }
+
+
+  #[inline]
+  pub fn id(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveFileQuestTemplate::VT_ID, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn archive_id(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveFileQuestTemplate::VT_ARCHIVE_ID, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn archive_name(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveFileQuestTemplate::VT_ARCHIVE_NAME, None)}
+  }
+  #[inline]
+  pub fn difficulty_lv(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveFileQuestTemplate::VT_DIFFICULTY_LV, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn show_type(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveFileQuestTemplate::VT_SHOW_TYPE, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn recommended_hit_types(&self) -> Option<flatbuffers::Vector<'a, i32>> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<flatbuffers::Vector<'a, i32>>>(ArchiveFileQuestTemplate::VT_RECOMMENDED_HIT_TYPES, None)}
+  }
+  #[inline]
+  pub fn video(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveFileQuestTemplate::VT_VIDEO, None)}
+  }
+  #[inline]
+  pub fn archive_file_name(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveFileQuestTemplate::VT_ARCHIVE_FILE_NAME, None)}
+  }
+  #[inline]
+  pub fn archive_file_num(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveFileQuestTemplate::VT_ARCHIVE_FILE_NUM, None)}
+  }
+  #[inline]
+  pub fn archive_file_ni_ids(&self) -> Option<flatbuffers::Vector<'a, i32>> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<flatbuffers::Vector<'a, i32>>>(ArchiveFileQuestTemplate::VT_ARCHIVE_FILE_NI_IDS, None)}
+  }
+  #[inline]
+  pub fn auto_distribution(&self) -> bool {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<bool>(ArchiveFileQuestTemplate::VT_AUTO_DISTRIBUTION, Some(false)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_1(&self) -> bool {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<bool>(ArchiveFileQuestTemplate::VT_UNK_1, Some(false)).unwrap()}
+  }
+}
+
+impl flatbuffers::Verifiable for ArchiveFileQuestTemplate<'_> {
+  #[inline]
+  fn run_verifier(
+    v: &mut flatbuffers::Verifier, pos: usize
+  ) -> Result<(), flatbuffers::InvalidFlatbuffer> {
+    use self::flatbuffers::Verifiable;
+    v.visit_table(pos)?
+     .visit_field::<i32>("id", Self::VT_ID, false)?
+     .visit_field::<i32>("archive_id", Self::VT_ARCHIVE_ID, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("archive_name", Self::VT_ARCHIVE_NAME, false)?
+     .visit_field::<i32>("difficulty_lv", Self::VT_DIFFICULTY_LV, false)?
+     .visit_field::<i32>("show_type", Self::VT_SHOW_TYPE, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<flatbuffers::Vector<'_, i32>>>("recommended_hit_types", Self::VT_RECOMMENDED_HIT_TYPES, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("video", Self::VT_VIDEO, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("archive_file_name", Self::VT_ARCHIVE_FILE_NAME, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("archive_file_num", Self::VT_ARCHIVE_FILE_NUM, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<flatbuffers::Vector<'_, i32>>>("archive_file_ni_ids", Self::VT_ARCHIVE_FILE_NI_IDS, false)?
+     .visit_field::<bool>("auto_distribution", Self::VT_AUTO_DISTRIBUTION, false)?
+     .visit_field::<bool>("unk_1", Self::VT_UNK_1, false)?
+     .finish();
+    Ok(())
+  }
+}
+pub struct ArchiveFileQuestTemplateArgs<'a> {
+    pub id: i32,
+    pub archive_id: i32,
+    pub archive_name: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub difficulty_lv: i32,
+    pub show_type: i32,
+    pub recommended_hit_types: Option<flatbuffers::WIPOffset<flatbuffers::Vector<'a, i32>>>,
+    pub video: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub archive_file_name: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub archive_file_num: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub archive_file_ni_ids: Option<flatbuffers::WIPOffset<flatbuffers::Vector<'a, i32>>>,
+    pub auto_distribution: bool,
+    pub unk_1: bool,
+}
+impl<'a> Default for ArchiveFileQuestTemplateArgs<'a> {
+  #[inline]
+  fn default() -> Self {
+    ArchiveFileQuestTemplateArgs {
+      id: 0,
+      archive_id: 0,
+      archive_name: None,
+      difficulty_lv: 0,
+      show_type: 0,
+      recommended_hit_types: None,
+      video: None,
+      archive_file_name: None,
+      archive_file_num: None,
+      archive_file_ni_ids: None,
+      auto_distribution: false,
+      unk_1: false,
+    }
+  }
+}
+
+pub struct ArchiveFileQuestTemplateBuilder<'a: 'b, 'b, A: flatbuffers::Allocator + 'a> {
+  fbb_: &'b mut flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: flatbuffers::WIPOffset<flatbuffers::TableUnfinishedWIPOffset>,
+}
+impl<'a: 'b, 'b, A: flatbuffers::Allocator + 'a> ArchiveFileQuestTemplateBuilder<'a, 'b, A> {
+  #[inline]
+  pub fn add_id(&mut self, id: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveFileQuestTemplate::VT_ID, id, 0);
+  }
+  #[inline]
+  pub fn add_archive_id(&mut self, archive_id: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveFileQuestTemplate::VT_ARCHIVE_ID, archive_id, 0);
+  }
+  #[inline]
+  pub fn add_archive_name(&mut self, archive_name: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveFileQuestTemplate::VT_ARCHIVE_NAME, archive_name);
+  }
+  #[inline]
+  pub fn add_difficulty_lv(&mut self, difficulty_lv: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveFileQuestTemplate::VT_DIFFICULTY_LV, difficulty_lv, 0);
+  }
+  #[inline]
+  pub fn add_show_type(&mut self, show_type: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveFileQuestTemplate::VT_SHOW_TYPE, show_type, 0);
+  }
+  #[inline]
+  pub fn add_recommended_hit_types(&mut self, recommended_hit_types: flatbuffers::WIPOffset<flatbuffers::Vector<'b , i32>>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveFileQuestTemplate::VT_RECOMMENDED_HIT_TYPES, recommended_hit_types);
+  }
+  #[inline]
+  pub fn add_video(&mut self, video: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveFileQuestTemplate::VT_VIDEO, video);
+  }
+  #[inline]
+  pub fn add_archive_file_name(&mut self, archive_file_name: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveFileQuestTemplate::VT_ARCHIVE_FILE_NAME, archive_file_name);
+  }
+  #[inline]
+  pub fn add_archive_file_num(&mut self, archive_file_num: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveFileQuestTemplate::VT_ARCHIVE_FILE_NUM, archive_file_num);
+  }
+  #[inline]
+  pub fn add_archive_file_ni_ids(&mut self, archive_file_ni_ids: flatbuffers::WIPOffset<flatbuffers::Vector<'b , i32>>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveFileQuestTemplate::VT_ARCHIVE_FILE_NI_IDS, archive_file_ni_ids);
+  }
+  #[inline]
+  pub fn add_auto_distribution(&mut self, auto_distribution: bool) {
+    self.fbb_.push_slot::<bool>(ArchiveFileQuestTemplate::VT_AUTO_DISTRIBUTION, auto_distribution, false);
+  }
+  #[inline]
+  pub fn add_unk_1(&mut self, unk_1: bool) {
+    self.fbb_.push_slot::<bool>(ArchiveFileQuestTemplate::VT_UNK_1, unk_1, false);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut flatbuffers::FlatBufferBuilder<'a, A>) -> ArchiveFileQuestTemplateBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    ArchiveFileQuestTemplateBuilder {
+      fbb_: _fbb,
+      start_: start,
+    }
+  }
+  #[inline]
+  pub fn finish(self) -> flatbuffers::WIPOffset<ArchiveFileQuestTemplate<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    flatbuffers::WIPOffset::new(o.value())
+  }
+}
+
+impl core::fmt::Debug for ArchiveFileQuestTemplate<'_> {
+  fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+    let mut ds = f.debug_struct("ArchiveFileQuestTemplate");
+      ds.field("id", &self.id());
+      ds.field("archive_id", &self.archive_id());
+      ds.field("archive_name", &self.archive_name());
+      ds.field("difficulty_lv", &self.difficulty_lv());
+      ds.field("show_type", &self.show_type());
+      ds.field("recommended_hit_types", &self.recommended_hit_types());
+      ds.field("video", &self.video());
+      ds.field("archive_file_name", &self.archive_file_name());
+      ds.field("archive_file_num", &self.archive_file_num());
+      ds.field("archive_file_ni_ids", &self.archive_file_ni_ids());
+      ds.field("auto_distribution", &self.auto_distribution());
+      ds.field("unk_1", &self.unk_1());
+      ds.finish()
+  }
+}
+pub enum ArchiveBattleQuestTemplateOffset {}
+#[derive(Copy, Clone, PartialEq)]
+
+pub struct ArchiveBattleQuestTemplate<'a> {
+  pub _tab: flatbuffers::Table<'a>,
+}
+
+impl<'a> flatbuffers::Follow<'a> for ArchiveBattleQuestTemplate<'a> {
+  type Inner = ArchiveBattleQuestTemplate<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: flatbuffers::Table::new(buf, loc) }
+  }
+}
+
+impl<'a> ArchiveBattleQuestTemplate<'a> {
+  pub const VT_ID: flatbuffers::VOffsetT = 4;
+  pub const VT_QUEST_NAME: flatbuffers::VOffsetT = 6;
+  pub const VT_QUEST_DESC: flatbuffers::VOffsetT = 8;
+  pub const VT_TARGET: flatbuffers::VOffsetT = 10;
+  pub const VT_QUEST_TYPE: flatbuffers::VOffsetT = 12;
+  pub const VT_CHAPTER: flatbuffers::VOffsetT = 14;
+  pub const VT_DIFFICULTY: flatbuffers::VOffsetT = 16;
+  pub const VT_MONSTER_LEVEL: flatbuffers::VOffsetT = 18;
+  pub const VT_RECOMMENDED_LEVEL: flatbuffers::VOffsetT = 20;
+  pub const VT_UNK_1: flatbuffers::VOffsetT = 22;
+  pub const VT_UNK_2: flatbuffers::VOffsetT = 24;
+  pub const VT_HOLLOW_ID: flatbuffers::VOffsetT = 26;
+  pub const VT_FIRST_BATTLE_EVENT_ID: flatbuffers::VOffsetT = 28;
+  pub const VT_BATTLE_EVENT_ID: flatbuffers::VOffsetT = 30;
+  pub const VT_UNK_3: flatbuffers::VOffsetT = 32;
+  pub const VT_BATTLE_RANK: flatbuffers::VOffsetT = 34;
+  pub const VT_SLOT_1_AVATAR: flatbuffers::VOffsetT = 36;
+  pub const VT_SLOT_2_AVATAR: flatbuffers::VOffsetT = 38;
+  pub const VT_SLOT_3_AVATAR: flatbuffers::VOffsetT = 40;
+  pub const VT_BUDDY: flatbuffers::VOffsetT = 42;
+  pub const VT_UNK_4: flatbuffers::VOffsetT = 44;
+  pub const VT_UNK_5: flatbuffers::VOffsetT = 46;
+  pub const VT_UNK_6: flatbuffers::VOffsetT = 48;
+  pub const VT_CHAPTER_NAME: flatbuffers::VOffsetT = 50;
+  pub const VT_QUEST_IMAGE: flatbuffers::VOffsetT = 52;
+  pub const VT_UNK_7: flatbuffers::VOffsetT = 54;
+  pub const VT_UNK_8: flatbuffers::VOffsetT = 56;
+  pub const VT_UNK_9: flatbuffers::VOffsetT = 58;
+  pub const VT_UNK_10: flatbuffers::VOffsetT = 60;
+  pub const VT_UNK_11: flatbuffers::VOffsetT = 62;
+  pub const VT_UNK_12: flatbuffers::VOffsetT = 64;
+  pub const VT_UNK_13: flatbuffers::VOffsetT = 66;
+
+  #[inline]
+  pub unsafe fn init_from_table(table: flatbuffers::Table<'a>) -> Self {
+    ArchiveBattleQuestTemplate { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args ArchiveBattleQuestTemplateArgs<'args>
+  ) -> flatbuffers::WIPOffset<ArchiveBattleQuestTemplate<'bldr>> {
+    let mut builder = ArchiveBattleQuestTemplateBuilder::new(_fbb);
+    builder.add_unk_13(args.unk_13);
+    if let Some(x) = args.unk_12 { builder.add_unk_12(x); }
+    builder.add_unk_11(args.unk_11);
+    builder.add_unk_9(args.unk_9);
+    if let Some(x) = args.unk_7 { builder.add_unk_7(x); }
+    builder.add_quest_image(args.quest_image);
+    if let Some(x) = args.chapter_name { builder.add_chapter_name(x); }
+    builder.add_unk_5(args.unk_5);
+    builder.add_buddy(args.buddy);
+    builder.add_slot_3_avatar(args.slot_3_avatar);
+    builder.add_slot_2_avatar(args.slot_2_avatar);
+    builder.add_slot_1_avatar(args.slot_1_avatar);
+    if let Some(x) = args.battle_rank { builder.add_battle_rank(x); }
+    builder.add_unk_3(args.unk_3);
+    builder.add_battle_event_id(args.battle_event_id);
+    builder.add_first_battle_event_id(args.first_battle_event_id);
+    builder.add_hollow_id(args.hollow_id);
+    builder.add_unk_2(args.unk_2);
+    builder.add_unk_1(args.unk_1);
+    builder.add_recommended_level(args.recommended_level);
+    builder.add_monster_level(args.monster_level);
+    builder.add_difficulty(args.difficulty);
+    builder.add_chapter(args.chapter);
+    builder.add_quest_type(args.quest_type);
+    if let Some(x) = args.target { builder.add_target(x); }
+    if let Some(x) = args.quest_desc { builder.add_quest_desc(x); }
+    if let Some(x) = args.quest_name { builder.add_quest_name(x); }
+    builder.add_id(args.id);
+    builder.add_unk_10(args.unk_10);
+    builder.add_unk_8(args.unk_8);
+    builder.add_unk_6(args.unk_6);
+    builder.add_unk_4(args.unk_4);
+    builder.finish()
+  }
+
+
+  #[inline]
+  pub fn id(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_ID, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn quest_name(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveBattleQuestTemplate::VT_QUEST_NAME, None)}
+  }
+  #[inline]
+  pub fn quest_desc(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveBattleQuestTemplate::VT_QUEST_DESC, None)}
+  }
+  #[inline]
+  pub fn target(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveBattleQuestTemplate::VT_TARGET, None)}
+  }
+  #[inline]
+  pub fn quest_type(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_QUEST_TYPE, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn chapter(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_CHAPTER, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn difficulty(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_DIFFICULTY, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn monster_level(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_MONSTER_LEVEL, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn recommended_level(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_RECOMMENDED_LEVEL, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_1(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_UNK_1, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_2(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_UNK_2, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn hollow_id(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_HOLLOW_ID, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn first_battle_event_id(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_FIRST_BATTLE_EVENT_ID, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn battle_event_id(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_BATTLE_EVENT_ID, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_3(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_UNK_3, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn battle_rank(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveBattleQuestTemplate::VT_BATTLE_RANK, None)}
+  }
+  #[inline]
+  pub fn slot_1_avatar(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_SLOT_1_AVATAR, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn slot_2_avatar(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_SLOT_2_AVATAR, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn slot_3_avatar(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_SLOT_3_AVATAR, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn buddy(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_BUDDY, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_4(&self) -> bool {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<bool>(ArchiveBattleQuestTemplate::VT_UNK_4, Some(false)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_5(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_UNK_5, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_6(&self) -> bool {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<bool>(ArchiveBattleQuestTemplate::VT_UNK_6, Some(false)).unwrap()}
+  }
+  #[inline]
+  pub fn chapter_name(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveBattleQuestTemplate::VT_CHAPTER_NAME, None)}
+  }
+  #[inline]
+  pub fn quest_image(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_QUEST_IMAGE, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_7(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveBattleQuestTemplate::VT_UNK_7, None)}
+  }
+  #[inline]
+  pub fn unk_8(&self) -> bool {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<bool>(ArchiveBattleQuestTemplate::VT_UNK_8, Some(false)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_9(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_UNK_9, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_10(&self) -> bool {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<bool>(ArchiveBattleQuestTemplate::VT_UNK_10, Some(false)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_11(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_UNK_11, Some(0)).unwrap()}
+  }
+  #[inline]
+  pub fn unk_12(&self) -> Option<&'a str> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<&str>>(ArchiveBattleQuestTemplate::VT_UNK_12, None)}
+  }
+  #[inline]
+  pub fn unk_13(&self) -> i32 {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<i32>(ArchiveBattleQuestTemplate::VT_UNK_13, Some(0)).unwrap()}
+  }
+}
+
+impl flatbuffers::Verifiable for ArchiveBattleQuestTemplate<'_> {
+  #[inline]
+  fn run_verifier(
+    v: &mut flatbuffers::Verifier, pos: usize
+  ) -> Result<(), flatbuffers::InvalidFlatbuffer> {
+    use self::flatbuffers::Verifiable;
+    v.visit_table(pos)?
+     .visit_field::<i32>("id", Self::VT_ID, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("quest_name", Self::VT_QUEST_NAME, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("quest_desc", Self::VT_QUEST_DESC, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("target", Self::VT_TARGET, false)?
+     .visit_field::<i32>("quest_type", Self::VT_QUEST_TYPE, false)?
+     .visit_field::<i32>("chapter", Self::VT_CHAPTER, false)?
+     .visit_field::<i32>("difficulty", Self::VT_DIFFICULTY, false)?
+     .visit_field::<i32>("monster_level", Self::VT_MONSTER_LEVEL, false)?
+     .visit_field::<i32>("recommended_level", Self::VT_RECOMMENDED_LEVEL, false)?
+     .visit_field::<i32>("unk_1", Self::VT_UNK_1, false)?
+     .visit_field::<i32>("unk_2", Self::VT_UNK_2, false)?
+     .visit_field::<i32>("hollow_id", Self::VT_HOLLOW_ID, false)?
+     .visit_field::<i32>("first_battle_event_id", Self::VT_FIRST_BATTLE_EVENT_ID, false)?
+     .visit_field::<i32>("battle_event_id", Self::VT_BATTLE_EVENT_ID, false)?
+     .visit_field::<i32>("unk_3", Self::VT_UNK_3, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("battle_rank", Self::VT_BATTLE_RANK, false)?
+     .visit_field::<i32>("slot_1_avatar", Self::VT_SLOT_1_AVATAR, false)?
+     .visit_field::<i32>("slot_2_avatar", Self::VT_SLOT_2_AVATAR, false)?
+     .visit_field::<i32>("slot_3_avatar", Self::VT_SLOT_3_AVATAR, false)?
+     .visit_field::<i32>("buddy", Self::VT_BUDDY, false)?
+     .visit_field::<bool>("unk_4", Self::VT_UNK_4, false)?
+     .visit_field::<i32>("unk_5", Self::VT_UNK_5, false)?
+     .visit_field::<bool>("unk_6", Self::VT_UNK_6, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("chapter_name", Self::VT_CHAPTER_NAME, false)?
+     .visit_field::<i32>("quest_image", Self::VT_QUEST_IMAGE, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("unk_7", Self::VT_UNK_7, false)?
+     .visit_field::<bool>("unk_8", Self::VT_UNK_8, false)?
+     .visit_field::<i32>("unk_9", Self::VT_UNK_9, false)?
+     .visit_field::<bool>("unk_10", Self::VT_UNK_10, false)?
+     .visit_field::<i32>("unk_11", Self::VT_UNK_11, false)?
+     .visit_field::<flatbuffers::ForwardsUOffset<&str>>("unk_12", Self::VT_UNK_12, false)?
+     .visit_field::<i32>("unk_13", Self::VT_UNK_13, false)?
+     .finish();
+    Ok(())
+  }
+}
+pub struct ArchiveBattleQuestTemplateArgs<'a> {
+    pub id: i32,
+    pub quest_name: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub quest_desc: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub target: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub quest_type: i32,
+    pub chapter: i32,
+    pub difficulty: i32,
+    pub monster_level: i32,
+    pub recommended_level: i32,
+    pub unk_1: i32,
+    pub unk_2: i32,
+    pub hollow_id: i32,
+    pub first_battle_event_id: i32,
+    pub battle_event_id: i32,
+    pub unk_3: i32,
+    pub battle_rank: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub slot_1_avatar: i32,
+    pub slot_2_avatar: i32,
+    pub slot_3_avatar: i32,
+    pub buddy: i32,
+    pub unk_4: bool,
+    pub unk_5: i32,
+    pub unk_6: bool,
+    pub chapter_name: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub quest_image: i32,
+    pub unk_7: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub unk_8: bool,
+    pub unk_9: i32,
+    pub unk_10: bool,
+    pub unk_11: i32,
+    pub unk_12: Option<flatbuffers::WIPOffset<&'a str>>,
+    pub unk_13: i32,
+}
+impl<'a> Default for ArchiveBattleQuestTemplateArgs<'a> {
+  #[inline]
+  fn default() -> Self {
+    ArchiveBattleQuestTemplateArgs {
+      id: 0,
+      quest_name: None,
+      quest_desc: None,
+      target: None,
+      quest_type: 0,
+      chapter: 0,
+      difficulty: 0,
+      monster_level: 0,
+      recommended_level: 0,
+      unk_1: 0,
+      unk_2: 0,
+      hollow_id: 0,
+      first_battle_event_id: 0,
+      battle_event_id: 0,
+      unk_3: 0,
+      battle_rank: None,
+      slot_1_avatar: 0,
+      slot_2_avatar: 0,
+      slot_3_avatar: 0,
+      buddy: 0,
+      unk_4: false,
+      unk_5: 0,
+      unk_6: false,
+      chapter_name: None,
+      quest_image: 0,
+      unk_7: None,
+      unk_8: false,
+      unk_9: 0,
+      unk_10: false,
+      unk_11: 0,
+      unk_12: None,
+      unk_13: 0,
+    }
+  }
+}
+
+pub struct ArchiveBattleQuestTemplateBuilder<'a: 'b, 'b, A: flatbuffers::Allocator + 'a> {
+  fbb_: &'b mut flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: flatbuffers::WIPOffset<flatbuffers::TableUnfinishedWIPOffset>,
+}
+impl<'a: 'b, 'b, A: flatbuffers::Allocator + 'a> ArchiveBattleQuestTemplateBuilder<'a, 'b, A> {
+  #[inline]
+  pub fn add_id(&mut self, id: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_ID, id, 0);
+  }
+  #[inline]
+  pub fn add_quest_name(&mut self, quest_name: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveBattleQuestTemplate::VT_QUEST_NAME, quest_name);
+  }
+  #[inline]
+  pub fn add_quest_desc(&mut self, quest_desc: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveBattleQuestTemplate::VT_QUEST_DESC, quest_desc);
+  }
+  #[inline]
+  pub fn add_target(&mut self, target: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveBattleQuestTemplate::VT_TARGET, target);
+  }
+  #[inline]
+  pub fn add_quest_type(&mut self, quest_type: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_QUEST_TYPE, quest_type, 0);
+  }
+  #[inline]
+  pub fn add_chapter(&mut self, chapter: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_CHAPTER, chapter, 0);
+  }
+  #[inline]
+  pub fn add_difficulty(&mut self, difficulty: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_DIFFICULTY, difficulty, 0);
+  }
+  #[inline]
+  pub fn add_monster_level(&mut self, monster_level: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_MONSTER_LEVEL, monster_level, 0);
+  }
+  #[inline]
+  pub fn add_recommended_level(&mut self, recommended_level: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_RECOMMENDED_LEVEL, recommended_level, 0);
+  }
+  #[inline]
+  pub fn add_unk_1(&mut self, unk_1: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_UNK_1, unk_1, 0);
+  }
+  #[inline]
+  pub fn add_unk_2(&mut self, unk_2: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_UNK_2, unk_2, 0);
+  }
+  #[inline]
+  pub fn add_hollow_id(&mut self, hollow_id: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_HOLLOW_ID, hollow_id, 0);
+  }
+  #[inline]
+  pub fn add_first_battle_event_id(&mut self, first_battle_event_id: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_FIRST_BATTLE_EVENT_ID, first_battle_event_id, 0);
+  }
+  #[inline]
+  pub fn add_battle_event_id(&mut self, battle_event_id: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_BATTLE_EVENT_ID, battle_event_id, 0);
+  }
+  #[inline]
+  pub fn add_unk_3(&mut self, unk_3: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_UNK_3, unk_3, 0);
+  }
+  #[inline]
+  pub fn add_battle_rank(&mut self, battle_rank: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveBattleQuestTemplate::VT_BATTLE_RANK, battle_rank);
+  }
+  #[inline]
+  pub fn add_slot_1_avatar(&mut self, slot_1_avatar: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_SLOT_1_AVATAR, slot_1_avatar, 0);
+  }
+  #[inline]
+  pub fn add_slot_2_avatar(&mut self, slot_2_avatar: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_SLOT_2_AVATAR, slot_2_avatar, 0);
+  }
+  #[inline]
+  pub fn add_slot_3_avatar(&mut self, slot_3_avatar: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_SLOT_3_AVATAR, slot_3_avatar, 0);
+  }
+  #[inline]
+  pub fn add_buddy(&mut self, buddy: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_BUDDY, buddy, 0);
+  }
+  #[inline]
+  pub fn add_unk_4(&mut self, unk_4: bool) {
+    self.fbb_.push_slot::<bool>(ArchiveBattleQuestTemplate::VT_UNK_4, unk_4, false);
+  }
+  #[inline]
+  pub fn add_unk_5(&mut self, unk_5: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_UNK_5, unk_5, 0);
+  }
+  #[inline]
+  pub fn add_unk_6(&mut self, unk_6: bool) {
+    self.fbb_.push_slot::<bool>(ArchiveBattleQuestTemplate::VT_UNK_6, unk_6, false);
+  }
+  #[inline]
+  pub fn add_chapter_name(&mut self, chapter_name: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveBattleQuestTemplate::VT_CHAPTER_NAME, chapter_name);
+  }
+  #[inline]
+  pub fn add_quest_image(&mut self, quest_image: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_QUEST_IMAGE, quest_image, 0);
+  }
+  #[inline]
+  pub fn add_unk_7(&mut self, unk_7: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveBattleQuestTemplate::VT_UNK_7, unk_7);
+  }
+  #[inline]
+  pub fn add_unk_8(&mut self, unk_8: bool) {
+    self.fbb_.push_slot::<bool>(ArchiveBattleQuestTemplate::VT_UNK_8, unk_8, false);
+  }
+  #[inline]
+  pub fn add_unk_9(&mut self, unk_9: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_UNK_9, unk_9, 0);
+  }
+  #[inline]
+  pub fn add_unk_10(&mut self, unk_10: bool) {
+    self.fbb_.push_slot::<bool>(ArchiveBattleQuestTemplate::VT_UNK_10, unk_10, false);
+  }
+  #[inline]
+  pub fn add_unk_11(&mut self, unk_11: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_UNK_11, unk_11, 0);
+  }
+  #[inline]
+  pub fn add_unk_12(&mut self, unk_12: flatbuffers::WIPOffset<&'b  str>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveBattleQuestTemplate::VT_UNK_12, unk_12);
+  }
+  #[inline]
+  pub fn add_unk_13(&mut self, unk_13: i32) {
+    self.fbb_.push_slot::<i32>(ArchiveBattleQuestTemplate::VT_UNK_13, unk_13, 0);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut flatbuffers::FlatBufferBuilder<'a, A>) -> ArchiveBattleQuestTemplateBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    ArchiveBattleQuestTemplateBuilder {
+      fbb_: _fbb,
+      start_: start,
+    }
+  }
+  #[inline]
+  pub fn finish(self) -> flatbuffers::WIPOffset<ArchiveBattleQuestTemplate<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    flatbuffers::WIPOffset::new(o.value())
+  }
+}
+
+impl core::fmt::Debug for ArchiveBattleQuestTemplate<'_> {
+  fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+    let mut ds = f.debug_struct("ArchiveBattleQuestTemplate");
+      ds.field("id", &self.id());
+      ds.field("quest_name", &self.quest_name());
+      ds.field("quest_desc", &self.quest_desc());
+      ds.field("target", &self.target());
+      ds.field("quest_type", &self.quest_type());
+      ds.field("chapter", &self.chapter());
+      ds.field("difficulty", &self.difficulty());
+      ds.field("monster_level", &self.monster_level());
+      ds.field("recommended_level", &self.recommended_level());
+      ds.field("unk_1", &self.unk_1());
+      ds.field("unk_2", &self.unk_2());
+      ds.field("hollow_id", &self.hollow_id());
+      ds.field("first_battle_event_id", &self.first_battle_event_id());
+      ds.field("battle_event_id", &self.battle_event_id());
+      ds.field("unk_3", &self.unk_3());
+      ds.field("battle_rank", &self.battle_rank());
+      ds.field("slot_1_avatar", &self.slot_1_avatar());
+      ds.field("slot_2_avatar", &self.slot_2_avatar());
+      ds.field("slot_3_avatar", &self.slot_3_avatar());
+      ds.field("buddy", &self.buddy());
+      ds.field("unk_4", &self.unk_4());
+      ds.field("unk_5", &self.unk_5());
+      ds.field("unk_6", &self.unk_6());
+      ds.field("chapter_name", &self.chapter_name());
+      ds.field("quest_image", &self.quest_image());
+      ds.field("unk_7", &self.unk_7());
+      ds.field("unk_8", &self.unk_8());
+      ds.field("unk_9", &self.unk_9());
+      ds.field("unk_10", &self.unk_10());
+      ds.field("unk_11", &self.unk_11());
+      ds.field("unk_12", &self.unk_12());
+      ds.field("unk_13", &self.unk_13());
+      ds.finish()
+  }
+}
 pub enum AvatarBaseTemplateTbOffset {}
 #[derive(Copy, Clone, PartialEq)]
 
@@ -2202,6 +3110,200 @@ impl<'a: 'b, 'b, A: flatbuffers::Allocator + 'a> PostGirlConfigTemplateTbBuilder
 impl core::fmt::Debug for PostGirlConfigTemplateTb<'_> {
   fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
     let mut ds = f.debug_struct("PostGirlConfigTemplateTb");
+      ds.field("data", &self.data());
+      ds.finish()
+  }
+}
+pub enum ArchiveFileQuestTemplateTbOffset {}
+#[derive(Copy, Clone, PartialEq)]
+
+pub struct ArchiveFileQuestTemplateTb<'a> {
+  pub _tab: flatbuffers::Table<'a>,
+}
+
+impl<'a> flatbuffers::Follow<'a> for ArchiveFileQuestTemplateTb<'a> {
+  type Inner = ArchiveFileQuestTemplateTb<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: flatbuffers::Table::new(buf, loc) }
+  }
+}
+
+impl<'a> ArchiveFileQuestTemplateTb<'a> {
+  pub const VT_DATA: flatbuffers::VOffsetT = 4;
+
+  #[inline]
+  pub unsafe fn init_from_table(table: flatbuffers::Table<'a>) -> Self {
+    ArchiveFileQuestTemplateTb { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args ArchiveFileQuestTemplateTbArgs<'args>
+  ) -> flatbuffers::WIPOffset<ArchiveFileQuestTemplateTb<'bldr>> {
+    let mut builder = ArchiveFileQuestTemplateTbBuilder::new(_fbb);
+    if let Some(x) = args.data { builder.add_data(x); }
+    builder.finish()
+  }
+
+
+  #[inline]
+  pub fn data(&self) -> Option<flatbuffers::Vector<'a, flatbuffers::ForwardsUOffset<ArchiveFileQuestTemplate<'a>>>> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<flatbuffers::Vector<'a, flatbuffers::ForwardsUOffset<ArchiveFileQuestTemplate>>>>(ArchiveFileQuestTemplateTb::VT_DATA, None)}
+  }
+}
+
+impl flatbuffers::Verifiable for ArchiveFileQuestTemplateTb<'_> {
+  #[inline]
+  fn run_verifier(
+    v: &mut flatbuffers::Verifier, pos: usize
+  ) -> Result<(), flatbuffers::InvalidFlatbuffer> {
+    use self::flatbuffers::Verifiable;
+    v.visit_table(pos)?
+     .visit_field::<flatbuffers::ForwardsUOffset<flatbuffers::Vector<'_, flatbuffers::ForwardsUOffset<ArchiveFileQuestTemplate>>>>("data", Self::VT_DATA, false)?
+     .finish();
+    Ok(())
+  }
+}
+pub struct ArchiveFileQuestTemplateTbArgs<'a> {
+    pub data: Option<flatbuffers::WIPOffset<flatbuffers::Vector<'a, flatbuffers::ForwardsUOffset<ArchiveFileQuestTemplate<'a>>>>>,
+}
+impl<'a> Default for ArchiveFileQuestTemplateTbArgs<'a> {
+  #[inline]
+  fn default() -> Self {
+    ArchiveFileQuestTemplateTbArgs {
+      data: None,
+    }
+  }
+}
+
+pub struct ArchiveFileQuestTemplateTbBuilder<'a: 'b, 'b, A: flatbuffers::Allocator + 'a> {
+  fbb_: &'b mut flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: flatbuffers::WIPOffset<flatbuffers::TableUnfinishedWIPOffset>,
+}
+impl<'a: 'b, 'b, A: flatbuffers::Allocator + 'a> ArchiveFileQuestTemplateTbBuilder<'a, 'b, A> {
+  #[inline]
+  pub fn add_data(&mut self, data: flatbuffers::WIPOffset<flatbuffers::Vector<'b , flatbuffers::ForwardsUOffset<ArchiveFileQuestTemplate<'b >>>>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveFileQuestTemplateTb::VT_DATA, data);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut flatbuffers::FlatBufferBuilder<'a, A>) -> ArchiveFileQuestTemplateTbBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    ArchiveFileQuestTemplateTbBuilder {
+      fbb_: _fbb,
+      start_: start,
+    }
+  }
+  #[inline]
+  pub fn finish(self) -> flatbuffers::WIPOffset<ArchiveFileQuestTemplateTb<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    flatbuffers::WIPOffset::new(o.value())
+  }
+}
+
+impl core::fmt::Debug for ArchiveFileQuestTemplateTb<'_> {
+  fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+    let mut ds = f.debug_struct("ArchiveFileQuestTemplateTb");
+      ds.field("data", &self.data());
+      ds.finish()
+  }
+}
+pub enum ArchiveBattleQuestTemplateTbOffset {}
+#[derive(Copy, Clone, PartialEq)]
+
+pub struct ArchiveBattleQuestTemplateTb<'a> {
+  pub _tab: flatbuffers::Table<'a>,
+}
+
+impl<'a> flatbuffers::Follow<'a> for ArchiveBattleQuestTemplateTb<'a> {
+  type Inner = ArchiveBattleQuestTemplateTb<'a>;
+  #[inline]
+  unsafe fn follow(buf: &'a [u8], loc: usize) -> Self::Inner {
+    Self { _tab: flatbuffers::Table::new(buf, loc) }
+  }
+}
+
+impl<'a> ArchiveBattleQuestTemplateTb<'a> {
+  pub const VT_DATA: flatbuffers::VOffsetT = 4;
+
+  #[inline]
+  pub unsafe fn init_from_table(table: flatbuffers::Table<'a>) -> Self {
+    ArchiveBattleQuestTemplateTb { _tab: table }
+  }
+  #[allow(unused_mut)]
+  pub fn create<'bldr: 'args, 'args: 'mut_bldr, 'mut_bldr, A: flatbuffers::Allocator + 'bldr>(
+    _fbb: &'mut_bldr mut flatbuffers::FlatBufferBuilder<'bldr, A>,
+    args: &'args ArchiveBattleQuestTemplateTbArgs<'args>
+  ) -> flatbuffers::WIPOffset<ArchiveBattleQuestTemplateTb<'bldr>> {
+    let mut builder = ArchiveBattleQuestTemplateTbBuilder::new(_fbb);
+    if let Some(x) = args.data { builder.add_data(x); }
+    builder.finish()
+  }
+
+
+  #[inline]
+  pub fn data(&self) -> Option<flatbuffers::Vector<'a, flatbuffers::ForwardsUOffset<ArchiveBattleQuestTemplate<'a>>>> {
+    // Safety:
+    // Created from valid Table for this object
+    // which contains a valid value in this slot
+    unsafe { self._tab.get::<flatbuffers::ForwardsUOffset<flatbuffers::Vector<'a, flatbuffers::ForwardsUOffset<ArchiveBattleQuestTemplate>>>>(ArchiveBattleQuestTemplateTb::VT_DATA, None)}
+  }
+}
+
+impl flatbuffers::Verifiable for ArchiveBattleQuestTemplateTb<'_> {
+  #[inline]
+  fn run_verifier(
+    v: &mut flatbuffers::Verifier, pos: usize
+  ) -> Result<(), flatbuffers::InvalidFlatbuffer> {
+    use self::flatbuffers::Verifiable;
+    v.visit_table(pos)?
+     .visit_field::<flatbuffers::ForwardsUOffset<flatbuffers::Vector<'_, flatbuffers::ForwardsUOffset<ArchiveBattleQuestTemplate>>>>("data", Self::VT_DATA, false)?
+     .finish();
+    Ok(())
+  }
+}
+pub struct ArchiveBattleQuestTemplateTbArgs<'a> {
+    pub data: Option<flatbuffers::WIPOffset<flatbuffers::Vector<'a, flatbuffers::ForwardsUOffset<ArchiveBattleQuestTemplate<'a>>>>>,
+}
+impl<'a> Default for ArchiveBattleQuestTemplateTbArgs<'a> {
+  #[inline]
+  fn default() -> Self {
+    ArchiveBattleQuestTemplateTbArgs {
+      data: None,
+    }
+  }
+}
+
+pub struct ArchiveBattleQuestTemplateTbBuilder<'a: 'b, 'b, A: flatbuffers::Allocator + 'a> {
+  fbb_: &'b mut flatbuffers::FlatBufferBuilder<'a, A>,
+  start_: flatbuffers::WIPOffset<flatbuffers::TableUnfinishedWIPOffset>,
+}
+impl<'a: 'b, 'b, A: flatbuffers::Allocator + 'a> ArchiveBattleQuestTemplateTbBuilder<'a, 'b, A> {
+  #[inline]
+  pub fn add_data(&mut self, data: flatbuffers::WIPOffset<flatbuffers::Vector<'b , flatbuffers::ForwardsUOffset<ArchiveBattleQuestTemplate<'b >>>>) {
+    self.fbb_.push_slot_always::<flatbuffers::WIPOffset<_>>(ArchiveBattleQuestTemplateTb::VT_DATA, data);
+  }
+  #[inline]
+  pub fn new(_fbb: &'b mut flatbuffers::FlatBufferBuilder<'a, A>) -> ArchiveBattleQuestTemplateTbBuilder<'a, 'b, A> {
+    let start = _fbb.start_table();
+    ArchiveBattleQuestTemplateTbBuilder {
+      fbb_: _fbb,
+      start_: start,
+    }
+  }
+  #[inline]
+  pub fn finish(self) -> flatbuffers::WIPOffset<ArchiveBattleQuestTemplateTb<'a>> {
+    let o = self.fbb_.end_table(self.start_);
+    flatbuffers::WIPOffset::new(o.value())
+  }
+}
+
+impl core::fmt::Debug for ArchiveBattleQuestTemplateTb<'_> {
+  fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+    let mut ds = f.debug_struct("ArchiveBattleQuestTemplateTb");
       ds.field("data", &self.data());
       ds.finish()
   }
